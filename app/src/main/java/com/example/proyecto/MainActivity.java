@@ -50,10 +50,12 @@ public class MainActivity extends AppCompatActivity {
                     texto.setText("comprueba la conexion");
                 }
                 String datos="";
-                datos= "descEstado:"+ response.body().getDescEstado()+
-                "\n importeOrdenacion: "+ response.body().getImporteOrdenacion()+
-                " \n fecha: "+ response.body().getFecha();
-                texto.append(datos);
+
+                    datos = "descEstado:" + response.body().getDescEstado() +
+                            "\n importeOrdenacion: " + response.body().getImporteOrdenacion() +
+                            " \n fecha: " + response.body().getFecha();
+                    texto.append(datos);
+
             }
 
             @Override
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+//esto es un comentario
 
 
 
