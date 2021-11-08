@@ -12,10 +12,5 @@
     app:title="Facturas"
     app:titleTextColor="@color/black">
 
-    <include android:id="@+id/toolbar"
-        layout="@layout/toolbar"></include>
-
-
-
 
 </androidx.appcompat.widget.Toolbar>

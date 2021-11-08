@@ -1,14 +1,20 @@
 package com.example.proyecto;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import retrofit2.Call;
@@ -20,6 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     TextView texto;
 
+
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar= findViewById(R.id.toolbar);
         texto=findViewById(R.id.textView);
         setSupportActionBar(toolbar);
+        //MenuItem menuItem = findViewById(R.menu.menu);
+
+
+
+
 
 
         //retrofit
@@ -74,8 +86,16 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
-    public boolean onOptionsItemSelected(MenuItem item){
-        return false;
+    public boolean onOptionsItemSelected(@NonNull  MenuItem item){
+        switch (item.getItemId()){
+            case R.id.opcion1:
+                Intent intent = new Intent(this,Filtros.class);
+                startActivity(intent);
+                return true;
+
+        }
+
+        return true;
 
     }
 
