@@ -1,21 +1,20 @@
-package com.example.proyecto;
+package com.example.proyecto.controlador;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
+
+import com.example.proyecto.models.Facturas;
+import com.example.proyecto.R;
+import com.example.proyecto.llamada;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    //creamos el menu para que los elemntos esten visibles.
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu,menu);
 
@@ -89,12 +89,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull  MenuItem item){
         switch (item.getItemId()){
             case R.id.opcion1:
-                Intent intent = new Intent(this,Filtros.class);
+                Intent intent = new Intent(this, Filtros.class);
                 startActivity(intent);
                 return true;
 
         }
-
         return true;
 
     }
