@@ -8,10 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SeekBar;
 
 import com.example.proyecto.R;
 
 public class Filtros extends AppCompatActivity {
+    private SeekBar bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +21,9 @@ public class Filtros extends AppCompatActivity {
         setContentView(R.layout.activity_filtros);
         Toolbar toolbar= findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        bar= findViewById(R.id.barra);
+
 
 
 
