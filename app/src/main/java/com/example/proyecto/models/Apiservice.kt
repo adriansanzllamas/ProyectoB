@@ -5,7 +5,7 @@ import retrofit2.http.GET
 
 interface Apiservice {
     @GET("facturas")
-    fun getAllFacturas(): Call <List<Facturas>>
+    fun getAllFacturas(): Call <Facturas>
 
 
 }

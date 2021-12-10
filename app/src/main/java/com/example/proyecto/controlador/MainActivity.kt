@@ -6,50 +6,43 @@ import android.widget.TextView
 import android.annotation.SuppressLint
 import android.os.Bundle
 import com.example.proyecto.R
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import com.example.proyecto.models.Apiservice
 import android.content.Intent
-import android.util.Log
-import android.util.Log.INFO
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import android.widget.Button
 import androidx.appcompat.widget.Toolbar
-import com.example.proyecto.controlador.Filtros
-import com.example.proyecto.models.Facturas
-import com.example.proyecto.models.facturaindividual
+import org.w3c.dom.Text
 
 
-import com.google.gson.Gson
-import okhttp3.internal.platform.Platform.INFO
-import retrofit2.Call
-
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.IOException
 import java.util.*
-import java.util.logging.Level.INFO
 
 lateinit var service: Apiservice
 val TAG_LOGS = "kikopalomares"
 
-class MainActivity : AppCompatActivity() {
 
+class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     lateinit var texto: TextView
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //creamos la variable de la toolbar de tipo toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-
+        //val diamesaño2:Button=findViewById(R.id.diamesaño2)
          texto = findViewById(R.id.textView)
         //para poder administar la barra de opciones toolbar.
         setSupportActionBar(toolbar)
 
-        texto.setText("fhwdfjds")
+
+
+
+
+
            /* val retrofit: Retrofit = Retrofit.Builder()
                 .baseUrl("https://viewnextandroid.mocklab.io/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -73,7 +66,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
     //creamos el menu para que los elemntos esten visibles.
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
@@ -93,3 +85,5 @@ class MainActivity : AppCompatActivity() {
 
 
 }
+
+
