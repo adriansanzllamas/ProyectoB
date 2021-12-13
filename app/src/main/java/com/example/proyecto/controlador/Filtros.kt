@@ -11,11 +11,16 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.example.proyecto.controlador.Filtros
+import java.util.*
 
 class Filtros : AppCompatActivity() {
     private var bar: SeekBar? = null
     private var diamesaño1: Button? =null
+    private var diamesaño2:Button?=null
     private var desde: TextView? =null
+    private var hasta:TextView?=null
+    private var botonactivado1:Boolean=false
+    private var botonactivado2:Boolean=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filtros)
@@ -24,10 +29,20 @@ class Filtros : AppCompatActivity() {
         bar = findViewById(R.id.barra)
         diamesaño1=findViewById(R.id.diamesaño1)
         desde=findViewById(R.id.desde)
+        diamesaño2=findViewById(R.id.diamesaño2)
+        hasta=findViewById(R.id.hasta)
 
         diamesaño1?.setOnClickListener {
             showDatePickerDialog()
+            botonactivado1=true
         }
+
+        diamesaño2?.setOnClickListener {
+            showDatePickerDialog()
+            botonactivado2=true
+        }
+        botonactivado1=false
+        botonactivado2=false
 
 
 
@@ -35,11 +50,18 @@ class Filtros : AppCompatActivity() {
         //val intent = intent
     }
     public fun showDatePickerDialog() {
-        val datePicker=DatePickerFragment(){dia, mes, año -> onDateSelected(dia, mes, año) }
-        datePicker.show(supportFragmentManager,"datePicker")
+        val datePicker=DatePickerFragment({dia, mes, año -> onDateSelected(dia, mes, año) })
+        datePicker.show(supportFragmentManager,"datePicker")//
     }
     public fun onDateSelected(dia:Int,mes:Int,ano:Int){
-        desde?.setText(dia+mes+ano)
+       if (botonactivado1==true && botonactivado2==false){
+           desde?.setText(" $dia/$mes/$ano")
+           botonactivado1==true
+        }
+        else {
+           hasta?.setText(" $dia/$mes/$ano")
+           botonactivado2==true
+       }
 
 
     }
@@ -49,7 +71,7 @@ class Filtros : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
-
+//funcion para mostrar
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.opcion1 -> {

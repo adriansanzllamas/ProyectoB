@@ -14,10 +14,10 @@ class DatePickerFragment(val listener:(dia:Int,mes:Int,año:Int)->Unit):DialogFr
 
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
         //este metodo nos va a devolver dia mes año
-        listener(dayOfMonth,month,year)
+        listener(dayOfMonth,month+1,year)//ponemos mas uno para que no omita el mes que esta seleccionado de manera predeterminada
     }
 
-
+//esta funcion es para configurar el calendario con la instacia del dia en el que se encuentre.
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val c= Calendar.getInstance()
         val dia=c.get(Calendar.DAY_OF_MONTH)
