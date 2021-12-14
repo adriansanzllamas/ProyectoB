@@ -8,17 +8,30 @@ import android.os.Bundle
 import com.example.proyecto.R
 import com.example.proyecto.models.Apiservice
 import android.content.Intent
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import com.example.proyecto.models.FacturaResponse
+import com.example.proyecto.models.Facturaindividual
+import com.google.gson.Gson
+
 import org.w3c.dom.Text
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 import java.util.*
+import java.util.logging.Level.INFO
 
 lateinit var service: Apiservice
 val TAG_LOGS = "kikopalomares"
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +50,12 @@ class MainActivity : AppCompatActivity() {
          texto = findViewById(R.id.textView)
         //para poder administar la barra de opciones toolbar.
         setSupportActionBar(toolbar)
+        LlamadaRetrofit()
+
+
+
+
+
 
 
 
@@ -63,6 +82,40 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
+    }
+    private fun LlamadaRetrofit(){
+
+        val retrofit: Retrofit = Retrofit.Builder()
+            .baseUrl("https://viewnextandroid.mocklab.io/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        //creamos el servivio para hacer las llamadas
+
+
+        val service= retrofit.create<Apiservice>(Apiservice::class.java)
+      service.getAllFacturas().enqueue(object :Callback<FacturaResponse>{
+          override fun onResponse(
+              call: Call<FacturaResponse>, response: Response<FacturaResponse>
+          ) {
+              if(response.isSuccessful){
+                  texto.append(response.body().toString())
+
+              }else{
+                 Toast.makeText(this@MainActivity,"ha habido un error",Toast.LENGTH_LONG).show()
+              }
+
+              Log.i(TAG_LOGS,Gson().toJson(response.body().toString()))
+
+
+          }
+
+          override fun onFailure(call: Call<FacturaResponse>, t: Throwable) {
+              TODO("Not yet implemented")
+          }
+
+      })
 
     }
 
