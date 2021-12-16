@@ -99,8 +99,15 @@
                 android:text="Por un importe"
                 android:textSize="15dp"
                 android:textColor="@color/black"></TextView>
+            <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/importe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="15dp"
+                android:textColor="@color/black"></TextView>
             <SeekBar
-
                 android:id="@+id/barra"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
