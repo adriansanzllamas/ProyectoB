@@ -11,11 +11,18 @@ import android.content.Intent
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.proyecto.Network.InvoiceService
 import com.example.proyecto.Network.RetrofitHelper
+import com.example.proyecto.models.InvoiceResponseVO
 import com.example.proyecto.models.InvoiceVO
 import com.google.gson.Gson
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 lateinit var service: Apiservice
 val TAG_LOGS = "kikopalomares"
@@ -38,49 +45,26 @@ class MainActivity : AppCompatActivity() {
          texto = findViewById(R.id.textView)
         //para poder administar la barra de opciones toolbar.
         setSupportActionBar(toolbar)
-        //LlamadaRetrofit()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-           /* val retrofit: Retrofit = Retrofit.Builder()
-                .baseUrl("https://viewnextandroid.mocklab.io/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-
-            service = retrofit.create<Apiservice>(Apiservice::class.java)
-        service.getAllFacturas().enqueue(object :Callback<List<Facturas>>{
-            override fun onResponse(call: Call<List<Facturas>>, response: Response<List<Facturas>>) {
-
-
-            }
-
-            override fun onFailure(call: Call <List<Facturas>>, t: Throwable) {
-
-            }
-
-        })*/
-
-
-
+        LlamadaRetrofit()
 
     }
+    //https://howtodoandroid.com/retrofit-android-example-kotlin/
     private fun LlamadaRetrofit(){
+      val apiInterface:Apiservice=RetrofitHelper().getRetrofit().create(Apiservice::class.java)
+        apiInterface.getAllFacturas().enqueue(object :Callback<InvoiceResponseVO>{
+            override fun onResponse(
+                call: Call<InvoiceResponseVO>,
+                response: Response<InvoiceResponseVO>
+            ) {
+                val body=response.body()
 
+            }
 
+            override fun onFailure(call: Call<InvoiceResponseVO>, t: Throwable) {
+                Toast.makeText(this@MainActivity,"errror",Toast.LENGTH_LONG).show()
+            }
+
+        })
 
 
     }

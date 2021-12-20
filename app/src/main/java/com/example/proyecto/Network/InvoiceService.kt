@@ -16,7 +16,7 @@ class InvoiceService {
     val invoices: Response<InvoiceResponseVO>
         get() {
             val apiService: Apiservice =
-                retrofit.retrofit.create(Apiservice::class.java)
+                retrofit.getRetrofit().create(Apiservice::class.java)
             val response: Response<InvoiceResponseVO>
             response = apiService.getAllFacturas().execute()
             return response

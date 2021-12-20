@@ -5,11 +5,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class RetrofitHelper {
-    val retrofit: Retrofit
-        get() = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+    fun getRetrofit(): Retrofit {
+        return Retrofit.Builder().baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create()).build()
+    }
 
     companion object {
         private const val BASE_URL = "https://viewnextandroid2.mocklab.io/"
