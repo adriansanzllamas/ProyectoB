@@ -1,6 +1,6 @@
 package com.example.proyecto.models
 
- data class InvoiceResponseVO(private val numFacturas: Double,private  val facturas: List<InvoiceVO>) {
+ data class InvoiceResponseVO(private val numFacturas: Int,private  val facturas: List<InvoiceVO>) {
    // private val facturas: List<InvoiceVO>
     /*fun getFacturas(): List<InvoiceVO> {
         return facturas
@@ -12,5 +12,10 @@ package com.example.proyecto.models
 
     init {
         this.facturas = factura
+
     }*/
-}
+
+
+ }
+
+
