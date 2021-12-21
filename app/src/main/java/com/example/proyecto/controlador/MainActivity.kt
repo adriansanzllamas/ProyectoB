@@ -12,8 +12,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto.Network.RetrofitHelper
-import com.example.proyecto.models.InvoiceVO
+import com.example.proyecto.models.InvoiceResponseVO
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +29,9 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     lateinit var texto: TextView
-    private val FacturAS = mutableListOf<InvoiceVO>()
+  //  lateinit var listadatos:ArrayList<String>
+    //lateinit var recyclerView:androidx.recyclerview.widget.RecyclerView
+     lateinit var dato:TextView
 
 
 
@@ -37,26 +40,34 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //creamos la variable de la toolbar de tipo toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        dato=findViewById(R.id.dato)
         //val diamesaño2:Button=findViewById(R.id.diamesaño2)
 
         //para poder administar la barra de opciones toolbar.
         setSupportActionBar(toolbar)
-        LlamadaRetrofit()
-
+        llamadaRetrofit()
+/*recyclerView =findViewById(R.id.recyclerview)
+        recyclerView.layoutManager=LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL ,false)*/
 
     }
     //https://howtodoandroid.com/retrofit-android-example-kotlin/
-    private fun LlamadaRetrofit(){
+    private fun llamadaRetrofit(){
         CoroutineScope(Dispatchers.IO).launch {
             val call=RetrofitHelper().getRetrofit().create(Apiservice::class.java).getAllFacturas().execute()
-            val factura: InvoiceVO? = call.body()
+            val factura: InvoiceResponseVO? = call.body()
 
             if (call.isSuccessful){
                 runOnUiThread {
-                    //val datos=factura?.copy()
+                    /*val aa:ArrayList<String> =listadatos
+                    listadatos.addAll(factura.toString())
 
-                    FacturAS.clear()
-                   // FacturAS.addAll()
+
+                   val adapter1:FacturaRecycler= FacturaRecycler(listadatos)
+                    recyclerView.adapter=adapter1*/
+                    dato.append(factura.toString())
+
+
+
                     Log.i(TAG_LOGS,Gson().toJson( factura))
                 }
             }else{
@@ -64,6 +75,14 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+
+
+    }
+
+
+    public fun initRecycleview(){
+// adapter=RecyclerView(FacturAS)
+       // var recycler:androidx.recyclerview.widget.RecyclerView=findViewById(R.id.recyclerview)
 
 
     }
@@ -85,6 +104,10 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+
+}
+
+private fun <E> MutableList<E>.addAll(elements: E?) {
 
 }
 
