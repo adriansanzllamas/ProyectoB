@@ -73,14 +73,14 @@
                     android:id="@+id/diamesaño1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="dia/mes/año"
+                    android:hint="dia/mes/año"
                     android:layout_marginTop="10dp"></Button>
                 <Button
                     android:layout_marginStart="60dp"
                     android:id="@+id/diamesaño2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="dia/mes/año"
+                    android:hint="dia/mes/año"
                     android:layout_marginTop="10dp"></Button>
 
             </LinearLayout>
@@ -111,7 +111,8 @@
                 android:id="@+id/barra"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"></SeekBar>
+                android:layout_marginTop="20dp"
+                ></SeekBar>
             <View
                 android:layout_marginTop="20dp"
                 android:id="@+id/divider2"
@@ -182,6 +183,7 @@
 
 
     </ScrollView>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout >

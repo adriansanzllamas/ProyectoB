@@ -12,7 +12,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.proyecto.controlador.Filtros
+import com.google.android.material.internal.ContextUtils.getActivity
 import java.util.*
+import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
+import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar.OnRangeSeekBarChangeListener
+
 
 class Filtros : AppCompatActivity() {
 
@@ -40,16 +44,19 @@ class Filtros : AppCompatActivity() {
 
 
         diamesaño1?.setOnClickListener {
+
             showDatePickerDialog()
-            botonactivado1=true
+           botonactivado1=true
+
         }
 
         diamesaño2?.setOnClickListener {
             showDatePickerDialog()
             botonactivado2=true
         }
-        botonactivado1=false
-        botonactivado2=false
+
+
+
 
 
         barra.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
@@ -81,14 +88,17 @@ class Filtros : AppCompatActivity() {
     }
     public fun onDateSelected(dia:Int,mes:Int,ano:Int){
        if (botonactivado1==true && botonactivado2==false){
-           desde?.setText(" $dia/$mes/$ano")
-           botonactivado1==true
+           diamesaño1?.setText(" $dia/$mes/$ano")
+
+          // botonactivado2==true
         }
         else {
-           hasta?.setText(" $dia/$mes/$ano")
-           botonactivado2==true
-       }
+           diamesaño2?.setText(" $dia/$mes/$ano")
 
+          // botonactivado1==true
+       }
+        botonactivado1=false
+        botonactivado2=false
 
     }
 
