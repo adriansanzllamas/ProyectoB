@@ -112,7 +112,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
-                ></SeekBar>
+                app:absoluteMaxValue="100"
+                app:absoluteMinValue="9"
+                >
+            </SeekBar>
             <View
                 android:layout_marginTop="20dp"
                 android:id="@+id/divider2"

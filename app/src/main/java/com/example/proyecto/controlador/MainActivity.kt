@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto.Network.RetrofitHelper
 import com.example.proyecto.models.InvoiceResponseVO
+import com.example.proyecto.models.InvoiceVO
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
   //  lateinit var listadatos:ArrayList<String>
     //lateinit var recyclerView:androidx.recyclerview.widget.RecyclerView
      lateinit var dato:TextView
+    private val Listadatos = mutableListOf<InvoiceResponseVO>()
 
 
 
@@ -41,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         //creamos la variable de la toolbar de tipo toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         dato=findViewById(R.id.dato)
-        //val diamesaño2:Button=findViewById(R.id.diamesaño2)
+
 
         //para poder administar la barra de opciones toolbar.
         setSupportActionBar(toolbar)
@@ -65,10 +67,18 @@ class MainActivity : AppCompatActivity() {
                    val adapter1:FacturaRecycler= FacturaRecycler(listadatos)
                     recyclerView.adapter=adapter1*/
                     dato.append(factura.toString())
+                    Listadatos.clear()
+                    Listadatos.addAll(factura)
+                    Log.i(TAG_LOGS,Listadatos.size.toString())
 
 
+                    for(  i in factura.toString()){
+                        Log.i(TAG_LOGS,i.toString())
+                    }
 
-                    Log.i(TAG_LOGS,Gson().toJson( factura))
+
+                    //Log.i(TAG_LOGS,Gson().toJson( factura))
+
                 }
             }else{
                 //MOSTRAMOS EL ERROR
