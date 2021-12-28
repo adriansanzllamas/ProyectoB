@@ -108,7 +108,7 @@ class Filtros : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 //funcion para mostrar
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+   /* override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.opcion1 -> {
                 val intent = Intent(this, Filtros::class.java)
@@ -117,5 +117,5 @@ class Filtros : AppCompatActivity() {
             }
         }
         return true
-    }
+    }*/
 }

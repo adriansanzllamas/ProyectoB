@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         //para poder administar la barra de opciones toolbar.
         setSupportActionBar(toolbar)
+
         llamadaRetrofit()
 /*recyclerView =findViewById(R.id.recyclerview)
         recyclerView.layoutManager=LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL ,false)*/
