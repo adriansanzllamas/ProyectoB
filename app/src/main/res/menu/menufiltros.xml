@@ -2,13 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/opcion1"
-        android:icon="@mipmap/filtross_foreground"
-        android:title="filtrar"
+        android:id="@+id/opcion2"
+        android:icon="@mipmap/close_foreground"
+        android:title="close"
         app:showAsAction="ifRoom"></item>
-
-
-
-
 
 </menu>

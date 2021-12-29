@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
                     recyclerView.adapter=adapter1*/
                     dato.append(factura.toString())
                     Listadatos.clear()
-                    Listadatos.addAll(factura)
+                    //Listadatos.addAll(factura)
                     Log.i(TAG_LOGS,Listadatos.size.toString())
 
 
@@ -105,11 +105,14 @@ class MainActivity : AppCompatActivity() {
     }
 //las funciones para mostrar los elementos del menu y su funcionalidad
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+
         when (item.itemId) {
             R.id.opcion1 -> {
                 val intent = Intent(this, Filtros::class.java)
                 startActivity(intent)
-                return true
+
+               return true
             }
         }
         return true
@@ -118,9 +121,7 @@ class MainActivity : AppCompatActivity() {
 
 }
 
-private fun <E> MutableList<E>.addAll(elements: E?) {
 
-}
 
 
 

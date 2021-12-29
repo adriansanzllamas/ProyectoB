@@ -30,8 +30,11 @@ class Filtros : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filtros)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+
+
+
+        val toolbar1 = findViewById<Toolbar>(R.id.toolbar1)
+        setSupportActionBar(toolbar1)
 
         diamesaño1=findViewById(R.id.diamesaño1)
         desde=findViewById(R.id.desde)
@@ -104,18 +107,17 @@ class Filtros : AppCompatActivity() {
 
     //mostrar el menu con la toolbar
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
+        menuInflater.inflate(R.menu.menufiltros,menu)
         return super.onCreateOptionsMenu(menu)
     }
 //funcion para mostrar
-   /* override fun onOptionsItemSelected(item: MenuItem): Boolean {
+   override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.opcion1 -> {
-                val intent = Intent(this, Filtros::class.java)
-                startActivity(intent)
+            R.id.opcion2 -> {
+               finish()
                 return true
             }
         }
         return true
-    }*/
+    }
 }
