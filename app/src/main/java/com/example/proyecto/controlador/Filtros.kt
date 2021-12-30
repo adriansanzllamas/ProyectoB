@@ -60,8 +60,6 @@ class Filtros : AppCompatActivity() {
 
 
 
-
-
         barra.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 volumen.text=progress.toString()

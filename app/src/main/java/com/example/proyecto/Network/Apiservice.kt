@@ -10,5 +10,4 @@ interface Apiservice {
     @GET("facturas")
     fun getAllFacturas(): Call <InvoiceResponseVO>
 
-
 }
