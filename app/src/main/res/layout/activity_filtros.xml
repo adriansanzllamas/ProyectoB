@@ -8,6 +8,7 @@
     tools:context=".controlador.Filtros">
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,35 +19,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:title="Facturas"
-                app:titleTextColor="@color/white"/>
+                app:titleTextColor="@color/white" />
+
 
             <TextView
                 android:id="@+id/filtarfacturas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Filtrar Facturas"
-                android:textSize="27dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="27dp" />
+
             <TextView
                 android:id="@+id/fechadeemisor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Con fecha de emision"
-                android:textColor="@color/black"
                 android:layout_marginTop="20dp"
-                ></TextView>
+                android:text="Con fecha de emision"
+                android:textColor="@color/black"></TextView>
 
             <LinearLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -55,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Desde:"
-                    android:textSize="19dp"/>
+                    android:textSize="19dp" />
 
                 <TextView
                     android:id="@+id/hasta"
@@ -63,104 +65,129 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Hasta:"
-                    android:textSize="19dp"/>
+                    android:textSize="19dp" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
+
                 <Button
                     android:id="@+id/diamesaño1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="dia/mes/año"
-                    android:layout_marginTop="10dp"></Button>
+                    android:layout_marginTop="10dp"
+                    android:hint="dia/mes/año"></Button>
+
                 <Button
-                    android:layout_marginStart="60dp"
                     android:id="@+id/diamesaño2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="dia/mes/año"
-                    android:layout_marginTop="10dp"></Button>
+                    android:layout_marginStart="60dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="dia/mes/año"></Button>
 
             </LinearLayout>
+
             <View
-                android:layout_marginTop="20dp"
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="?android:attr/listDivider" />
+
             <TextView
-                android:layout_marginTop="20dp"
                 android:id="@+id/porunimporte"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por un importe"
-                android:textSize="15dp"
-                android:textColor="@color/black"></TextView>
-            <TextView
                 android:layout_marginTop="20dp"
+                android:text="Por un importe"
+                android:textColor="@color/black"
+                android:textSize="15dp"></TextView>
+
+            <TextView
                 android:id="@+id/importe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:textAlignment="center"
-                android:textSize="15dp"
-                android:textColor="@color/black"></TextView>
+                android:textColor="@color/black"
+                android:textSize="15dp"></TextView>
+
             <SeekBar
                 android:id="@+id/barra"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
-                app:absoluteMaxValue="100"
-                app:absoluteMinValue="9"
-                >
-            </SeekBar>
+                ></SeekBar>
+            <me.bendik.simplerangeview.SimpleRangeView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:movable="true">
+
+            </me.bendik.simplerangeview.SimpleRangeView>
+            <org.florescu.android.rangeseekbar.RangeSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </org.florescu.android.rangeseekbar.RangeSeekBar>
+
+
+
+
             <View
-                android:layout_marginTop="20dp"
                 android:id="@+id/divider2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:background="?android:attr/listDivider" />
+
             <TextView
-                android:layout_marginTop="20dp"
                 android:id="@+id/porestado"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
                 android:text="Por estado"
                 android:textColor="@color/black"
                 android:textSize="15dp"></TextView>
+
             <CheckBox
-                android:layout_marginTop="10dp"
                 android:id="@+id/pagadas"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Pagadas"></CheckBox>
-            <CheckBox
                 android:layout_marginTop="10dp"
+                android:text="Pagadas"></CheckBox>
+
+            <CheckBox
                 android:id="@+id/anuladas"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Anuladas"></CheckBox>
-            <CheckBox
                 android:layout_marginTop="10dp"
+                android:text="Anuladas"></CheckBox>
+
+            <CheckBox
                 android:id="@+id/cuotafija"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Cuota Fija"></CheckBox>
-            <CheckBox
                 android:layout_marginTop="10dp"
+                android:text="Cuota Fija"></CheckBox>
+
+            <CheckBox
                 android:id="@+id/pendientedepago"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Pendiente de Pago"></CheckBox>
-            <CheckBox
                 android:layout_marginTop="10dp"
+                android:text="Pendiente de Pago"></CheckBox>
+
+            <CheckBox
                 android:id="@+id/plandepago"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:text="Plan de Pago"></CheckBox>
 
             <Button
@@ -178,8 +205,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:background="#00FFFFFF"
-                android:text="Borrar Filtros"
-                ></Button>
+                android:text="Borrar Filtros"></Button>
+
 
 
 
@@ -187,7 +214,6 @@
 
 
     </ScrollView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout >

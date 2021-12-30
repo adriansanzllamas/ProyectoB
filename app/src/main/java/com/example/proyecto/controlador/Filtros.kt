@@ -14,8 +14,7 @@ import androidx.appcompat.widget.Toolbar
 import com.example.proyecto.controlador.Filtros
 import com.google.android.material.internal.ContextUtils.getActivity
 import java.util.*
-import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar
-import com.yahoo.mobile.client.android.util.rangeseekbar.RangeSeekBar.OnRangeSeekBarChangeListener
+
 
 
 class Filtros : AppCompatActivity() {
