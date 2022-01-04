@@ -13,9 +13,11 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.example.proyecto.controlador.Filtros
 import com.google.android.material.internal.ContextUtils.getActivity
+import me.bendik.simplerangeview.SimpleRangeView
+import org.florescu.android.rangeseekbar.RangeSeekBar
 import java.util.*
 
-
+//https://www.youtube.com/watch?v=-GGcrlaEWUw
 
 class Filtros : AppCompatActivity() {
 
@@ -39,8 +41,24 @@ class Filtros : AppCompatActivity() {
         desde=findViewById(R.id.desde)
         diamesaño2=findViewById(R.id.diamesaño2)
         hasta=findViewById(R.id.hasta)
-        val barra:SeekBar=findViewById(R.id.barra)
+
         var volumen:TextView=findViewById(R.id.importe)
+
+       val rangeSeekBar:RangeSeekBar<Int>
+       rangeSeekBar=findViewById(R.id.rangeseekbar)
+        rangeSeekBar.setRangeValues(9,100)
+        rangeSeekBar.setOnRangeSeekBarChangeListener(object :RangeSeekBar.OnRangeSeekBarChangeListener<Int>{
+            override fun onRangeSeekBarValuesChanged(
+                bar: RangeSeekBar<*>?,
+                minValue: Int,
+                maxValue: Int
+            ) {
+                //  //Now you have the minValue and maxValue of your RangeSeekbar
+                // Toast.makeText(getActivity(), minValue + "-" + maxValue, Toast.LENGTH_LONG).show();
+                volumen.setText("$minValue-$maxValue")
+            }
+
+        })
 
 
 
@@ -59,21 +77,7 @@ class Filtros : AppCompatActivity() {
 
 
 
-        barra.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                volumen.text=progress.toString()
-            }
-//estos dos funciones sirven para controlar cuando hacel clic en la progres bar y se puede interartuar.
-            //(EL PROGRESO DE LA BARRA)
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
 
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
-            }
-
-        })
 
 
         //obtener el intent de la anterior clase o pantalla
@@ -118,3 +122,5 @@ class Filtros : AppCompatActivity() {
         return true
     }
 }
+
+

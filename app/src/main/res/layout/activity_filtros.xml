@@ -117,25 +117,18 @@
                 android:textColor="@color/black"
                 android:textSize="15dp"></TextView>
 
-            <SeekBar
-                android:id="@+id/barra"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                ></SeekBar>
-            <me.bendik.simplerangeview.SimpleRangeView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:movable="true">
 
-            </me.bendik.simplerangeview.SimpleRangeView>
             <org.florescu.android.rangeseekbar.RangeSeekBar
+                android:id="@+id/rangeseekbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:absoluteMaxValue="100"
+                app:absoluteMinValue="0"
+                app:valuesAboveThumbs="true"
+
+                >
 
             </org.florescu.android.rangeseekbar.RangeSeekBar>
-
-
 
 
             <View
