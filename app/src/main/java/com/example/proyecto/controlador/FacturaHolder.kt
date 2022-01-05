@@ -1,38 +1,49 @@
 package com.example.proyecto.controlador
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.R
-import com.example.proyecto.models.InvoiceResponseVO
+import com.example.proyecto.models.*
 
-class FacturaHolder(val facturas:List<InvoiceResponseVO>):RecyclerView.Adapter<FacturaHolder.ViewHolder>(){
+class FacturaHolder(val context: Context, val facturalist: InvoiceResponseVO?):
+    RecyclerView.Adapter<FacturaHolder.ViewHolder>() {
+    class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
+        lateinit var descEstado:TextView
+        lateinit var importedeOrdenacion:TextView
+        lateinit var fecha:TextView
+        init {
+            importedeOrdenacion=itemView.findViewById(R.id.dato)
+            descEstado=itemView.findViewById(R.id.dato2)
+            fecha=itemView.findViewById(R.id.dato3)
 
-class ViewHolder(view:View):RecyclerView.ViewHolder(view){
+        }
 
-    fun bind(facturas: InvoiceResponseVO) {
 
 
     }
 
-}
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view =LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_factura,parent,false)
-        return ViewHolder(view)
+       var itemView=LayoutInflater.from(context).inflate(R.layout.item_factura,parent,false)
+        return ViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val factura=facturas[position]
-        holder.bind(factura)
+        if (facturalist != null) {
+            holder.descEstado.text= facturalist.facturas[position].toString()
+        }
+
 
     }
 
     override fun getItemCount(): Int {
-        return facturas.size
-
+        if (facturalist != null) {
+            return facturalist.facturas.size
+        }
+        return 8
     }
 }
+

@@ -13,10 +13,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.Network.RetrofitHelper
 import com.example.proyecto.models.InvoiceResponseVO
-import com.example.proyecto.models.InvoiceVO
-import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     //lateinit var recyclerView:androidx.recyclerview.widget.RecyclerView
      lateinit var dato:TextView
     private val Listadatos = mutableListOf<InvoiceResponseVO>()
+    lateinit var adapter: FacturaHolder
 
 
 
@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val call=RetrofitHelper().getRetrofit().create(Apiservice::class.java).getAllFacturas().execute()
             val factura: InvoiceResponseVO? = call.body()
+            adapter= FacturaHolder(this@MainActivity,factura)
 
             if (call.isSuccessful){
                 runOnUiThread {
@@ -67,10 +68,14 @@ class MainActivity : AppCompatActivity() {
 
                    val adapter1:FacturaRecycler= FacturaRecycler(listadatos)
                     recyclerView.adapter=adapter1*/
-                    dato.append(factura.toString())
+                    //dato.append(factura.toString())
                     Listadatos.clear()
                     //Listadatos.addAll(factura)
                     Log.i(TAG_LOGS,Listadatos.size.toString())
+                    val lista=findViewById<RecyclerView>(R.id.recyclerview)
+                    lista.adapter=adapter
+                    lista.layoutManager=LinearLayoutManager(this@MainActivity)
+
 
 
                     for(  i in factura.toString()){

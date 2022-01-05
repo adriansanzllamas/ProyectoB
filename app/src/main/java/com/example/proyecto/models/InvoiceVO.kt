@@ -1,7 +1,7 @@
 package com.example.proyecto.models
 
-data class InvoiceVO(
-    private final var descEstado: String,
-    private final var importeOrdenacion: Double,
-    private final var fecha: String
+  data class InvoiceVO(
+     val descEstado: String,
+    val importeOrdenacion: Double,
+     val fecha: String
 )
