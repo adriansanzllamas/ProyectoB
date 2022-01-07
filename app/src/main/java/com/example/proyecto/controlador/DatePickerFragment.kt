@@ -24,7 +24,11 @@ class DatePickerFragment(val listener:(dia:Int,mes:Int,año:Int)->Unit):DialogFr
         val mes=c.get(Calendar.MONTH)
         val year=c.get(Calendar.YEAR)
 
+
         val picker =DatePickerDialog(activity as Context,this,year,mes,dia)
+    c.add(Calendar.YEAR, -20)
+    picker.datePicker.minDate=c.timeInMillis
+
         return picker
     }
 }

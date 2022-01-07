@@ -1,7 +1,7 @@
 package com.example.proyecto.models
 
  data class InvoiceResponseVO(
-     val numFacturas: Double,
+     var numFacturas: Double,
      val facturas: List<InvoiceVO>
 ) {
 

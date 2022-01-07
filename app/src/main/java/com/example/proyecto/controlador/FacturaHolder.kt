@@ -16,9 +16,9 @@ class FacturaHolder(val context: Context, val facturalist: InvoiceResponseVO?):
         lateinit var importedeOrdenacion:TextView
         lateinit var fecha:TextView
         init {
-            importedeOrdenacion=itemView.findViewById(R.id.dato)
-            descEstado=itemView.findViewById(R.id.dato2)
-            fecha=itemView.findViewById(R.id.dato3)
+            importedeOrdenacion=itemView.findViewById(R.id.dato2)
+            descEstado=itemView.findViewById(R.id.dato3)
+            fecha=itemView.findViewById(R.id.dato)
 
         }
 
@@ -33,17 +33,23 @@ class FacturaHolder(val context: Context, val facturalist: InvoiceResponseVO?):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (facturalist != null) {
-            holder.descEstado.text= facturalist.facturas[position].toString()
+            holder.descEstado.text= facturalist.facturas[position].descEstado
+        }
+        if (facturalist != null) {
+            holder.importedeOrdenacion.text=facturalist.facturas[position].importeOrdenacion.toString()
+        }
+        if (facturalist != null) {
+            holder.fecha.text=facturalist.facturas[position].fecha
         }
 
 
     }
 
     override fun getItemCount(): Int {
-        if (facturalist != null) {
-            return facturalist.facturas.size
-        }
-        return 8
+
+        return facturalist!!.facturas.size
     }
+
+
 }
 

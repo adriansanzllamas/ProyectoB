@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.Network.RetrofitHelper
 import com.example.proyecto.models.InvoiceResponseVO
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //creamos la variable de la toolbar de tipo toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        dato=findViewById(R.id.dato)
+
 
 
         //para poder administar la barra de opciones toolbar.
@@ -64,26 +65,19 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     /*val aa:ArrayList<String> =listadatos
                     listadatos.addAll(factura.toString())
-
-
                    val adapter1:FacturaRecycler= FacturaRecycler(listadatos)
                     recyclerView.adapter=adapter1*/
                     //dato.append(factura.toString())
                     Listadatos.clear()
                     //Listadatos.addAll(factura)
-                    Log.i(TAG_LOGS,Listadatos.size.toString())
+                    Log.i(TAG_LOGS,Gson().toJson(factura))
                     val lista=findViewById<RecyclerView>(R.id.recyclerview)
                     lista.adapter=adapter
                     lista.layoutManager=LinearLayoutManager(this@MainActivity)
 
 
 
-                    for(  i in factura.toString()){
-                        Log.i(TAG_LOGS,i.toString())
-                    }
 
-
-                    //Log.i(TAG_LOGS,Gson().toJson( factura))
 
                 }
             }else{

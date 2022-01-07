@@ -88,9 +88,12 @@ class Filtros : AppCompatActivity() {
     }
     public fun showDatePickerDialog() {
         val datePicker=DatePickerFragment({dia, mes, año -> onDateSelected(dia, mes, año) })
-        datePicker.show(supportFragmentManager,"datePicker")//
+        datePicker.show(supportFragmentManager,"datePicker") //
+
+
     }
     public fun onDateSelected(dia:Int,mes:Int,ano:Int){
+
        if (botonactivado1==true && botonactivado2==false){
            diamesaño1?.setText(" $dia/$mes/$ano")
 
@@ -103,6 +106,7 @@ class Filtros : AppCompatActivity() {
        }
         botonactivado1=false
         botonactivado2=false
+
 
     }
 
