@@ -7,21 +7,24 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.R
+import com.example.proyecto.databinding.ItemFacturaBinding
 import com.example.proyecto.models.*
 
-class FacturaHolder(val context: Context, val facturalist: InvoiceResponseVO?):
+class FacturaHolder(val context: Context, val facturalist: List<InvoiceVO>?):
     RecyclerView.Adapter<FacturaHolder.ViewHolder>() {
     class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
         lateinit var descEstado:TextView
         lateinit var importedeOrdenacion:TextView
         lateinit var fecha:TextView
+        private val divisa:String="€"
+        val binding=ItemFacturaBinding.bind(itemView)
         init {
-            importedeOrdenacion=itemView.findViewById(R.id.dato2)
-            descEstado=itemView.findViewById(R.id.dato3)
-            fecha=itemView.findViewById(R.id.dato)
+
+            importedeOrdenacion=binding.dato2
+            descEstado=binding.dato3
+            fecha=binding.dato
 
         }
-
 
 
     }
@@ -33,13 +36,13 @@ class FacturaHolder(val context: Context, val facturalist: InvoiceResponseVO?):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (facturalist != null) {
-            holder.descEstado.text= facturalist.facturas[position].descEstado
+            holder.descEstado.text= facturalist[position].descEstado
         }
         if (facturalist != null) {
-            holder.importedeOrdenacion.text=facturalist.facturas[position].importeOrdenacion.toString()
+            holder.importedeOrdenacion.text=facturalist[position].importeOrdenacion.toString()
         }
         if (facturalist != null) {
-            holder.fecha.text=facturalist.facturas[position].fecha
+            holder.fecha.text=facturalist[position].fecha
         }
 
 
@@ -47,7 +50,7 @@ class FacturaHolder(val context: Context, val facturalist: InvoiceResponseVO?):
 
     override fun getItemCount(): Int {
 
-        return facturalist!!.facturas.size
+        return facturalist!!.size
     }
 
 

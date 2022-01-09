@@ -11,10 +11,12 @@ import android.content.Intent
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.Network.RetrofitHelper
+import com.example.proyecto.databinding.ActivityMainBinding
 import com.example.proyecto.models.InvoiceResponseVO
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
@@ -27,22 +29,23 @@ val TAG_LOGS = "kikopalomares"
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
 
     @SuppressLint("ResourceType")
-    lateinit var texto: TextView
   //  lateinit var listadatos:ArrayList<String>
     //lateinit var recyclerView:androidx.recyclerview.widget.RecyclerView
-     lateinit var dato:TextView
-    private val Listadatos = mutableListOf<InvoiceResponseVO>()
+
+    private val Listadatos = ArrayList<InvoiceResponseVO?>()
+
+
     lateinit var adapter: FacturaHolder
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+       binding= ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         //creamos la variable de la toolbar de tipo toolbar
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val toolbar =binding.toolbar
 
 
 
@@ -59,29 +62,25 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val call=RetrofitHelper().getRetrofit().create(Apiservice::class.java).getAllFacturas().execute()
             val factura: InvoiceResponseVO? = call.body()
-            adapter= FacturaHolder(this@MainActivity,factura)
+
+            adapter= FacturaHolder(this@MainActivity,factura!!.facturas)//tambn se puede hacer con InvoiceserviceVo en el recyclerview
+
+
 
             if (call.isSuccessful){
                 runOnUiThread {
-                    /*val aa:ArrayList<String> =listadatos
-                    listadatos.addAll(factura.toString())
-                   val adapter1:FacturaRecycler= FacturaRecycler(listadatos)
-                    recyclerView.adapter=adapter1*/
-                    //dato.append(factura.toString())
+
                     Listadatos.clear()
-                    //Listadatos.addAll(factura)
-                    Log.i(TAG_LOGS,Gson().toJson(factura))
-                    val lista=findViewById<RecyclerView>(R.id.recyclerview)
+                    Listadatos.addAll(listOf(factura))
+                    factura!!.facturas[1].importeOrdenacion
+
+                    val lista=binding.recyclerview
                     lista.adapter=adapter
                     lista.layoutManager=LinearLayoutManager(this@MainActivity)
 
-
-
-
-
                 }
             }else{
-                //MOSTRAMOS EL ERROR
+              Toast.makeText(this@MainActivity,"no hay datos",Toast.LENGTH_LONG).show()
             }
 
         }
@@ -109,6 +108,8 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.opcion1 -> {
                 val intent = Intent(this, Filtros::class.java)
+
+
                 startActivity(intent)
 
                return true
@@ -119,6 +120,10 @@ class MainActivity : AppCompatActivity() {
 
 
 }
+
+
+
+
 
 
 

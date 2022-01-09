@@ -1,18 +1,27 @@
 package com.example.proyecto.controlador
 
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.SeekBar
 import android.os.Bundle
 import com.example.proyecto.R
 import android.content.Intent
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.proyecto.Network.Apiservice
+import com.example.proyecto.Network.RetrofitHelper
 import com.example.proyecto.controlador.Filtros
+import com.example.proyecto.databinding.ActivityFiltrosBinding
+import com.example.proyecto.databinding.ActivityMainBinding
+import com.example.proyecto.models.InvoiceResponseVO
+import com.example.proyecto.models.InvoiceVO
 import com.google.android.material.internal.ContextUtils.getActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import me.bendik.simplerangeview.SimpleRangeView
 import org.florescu.android.rangeseekbar.RangeSeekBar
 import java.util.*
@@ -20,32 +29,42 @@ import java.util.*
 //https://www.youtube.com/watch?v=-GGcrlaEWUw
 
 class Filtros : AppCompatActivity() {
-
+    private lateinit var binding: ActivityFiltrosBinding
+    val TAG_LOGS = "kikopalomares"
     private var diamesaño1: Button? =null
     private var diamesaño2:Button?=null
     private var desde: TextView? =null
     private var hasta:TextView?=null
     private var botonactivado1:Boolean=false
     private var botonactivado2:Boolean=false
+    private lateinit var buscador:SearchView
+    private lateinit var pagadas:CheckBox
+    private lateinit var pendientedepago:CheckBox
+    lateinit var adapter: FacturaHolder
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_filtros)
 
+        binding=ActivityFiltrosBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-
-        val toolbar1 = findViewById<Toolbar>(R.id.toolbar1)
+        val toolbar1 = binding.toolbar1
         setSupportActionBar(toolbar1)
 
-        diamesaño1=findViewById(R.id.diamesaño1)
-        desde=findViewById(R.id.desde)
-        diamesaño2=findViewById(R.id.diamesaño2)
-        hasta=findViewById(R.id.hasta)
+        diamesaño1=binding.diamesaO1
+        diamesaño2=binding.diamesaO2
+        desde=binding.desde
+        hasta=binding. hasta
+        pagadas=binding.pagadas
+        pendientedepago=binding.pendientedepago
 
-        var volumen:TextView=findViewById(R.id.importe)
+        var volumen:TextView=binding.importe
 
-       val rangeSeekBar:RangeSeekBar<Int>
-       rangeSeekBar=findViewById(R.id.rangeseekbar)
+         lateinit var rangeSeekBar:RangeSeekBar<Int>
+       rangeSeekBar= binding.rangeseekbar as RangeSeekBar<Int>
         rangeSeekBar.setRangeValues(9,100)
         rangeSeekBar.setOnRangeSeekBarChangeListener(object :RangeSeekBar.OnRangeSeekBarChangeListener<Int>{
             override fun onRangeSeekBarValuesChanged(
@@ -59,7 +78,6 @@ class Filtros : AppCompatActivity() {
             }
 
         })
-
 
 
 
@@ -80,6 +98,7 @@ class Filtros : AppCompatActivity() {
 
 
 
+
         //obtener el intent de la anterior clase o pantalla
         //val intent = intent
 
@@ -88,7 +107,7 @@ class Filtros : AppCompatActivity() {
     }
     public fun showDatePickerDialog() {
         val datePicker=DatePickerFragment({dia, mes, año -> onDateSelected(dia, mes, año) })
-        datePicker.show(supportFragmentManager,"datePicker") //
+        datePicker.show(supportFragmentManager,"datePicker")
 
 
     }
@@ -110,6 +129,8 @@ class Filtros : AppCompatActivity() {
 
     }
 
+
+
     //mostrar el menu con la toolbar
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menufiltros,menu)
@@ -125,6 +146,8 @@ class Filtros : AppCompatActivity() {
         }
         return true
     }
+
+
 }
 
 
