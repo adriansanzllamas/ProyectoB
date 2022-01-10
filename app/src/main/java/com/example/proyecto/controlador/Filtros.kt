@@ -1,5 +1,7 @@
 package com.example.proyecto.controlador
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.proyecto.R
@@ -40,7 +42,16 @@ class Filtros : AppCompatActivity() {
     private lateinit var buscador:SearchView
     private lateinit var pagadas:CheckBox
     private lateinit var pendientedepago:CheckBox
+    private lateinit var anuladas:CheckBox
+    private lateinit var cuotafija:CheckBox
+    private lateinit var plandepago:CheckBox
     lateinit var adapter: FacturaHolder
+    private lateinit var aplicar:Button
+    private lateinit var borrar:Button
+    private var fechaescrita1:Boolean=false
+    private var fechaescrita2:Boolean=false
+
+
 
 
 
@@ -60,6 +71,13 @@ class Filtros : AppCompatActivity() {
         hasta=binding. hasta
         pagadas=binding.pagadas
         pendientedepago=binding.pendientedepago
+        aplicar=binding.aplicarfiltros
+        borrar=binding.borrarfiltros
+        anuladas=binding.anuladas
+        cuotafija=binding.cuotafija
+        plandepago=binding.plandepago
+
+
 
         var volumen:TextView=binding.importe
 
@@ -84,19 +102,34 @@ class Filtros : AppCompatActivity() {
         diamesaño1?.setOnClickListener {
 
             showDatePickerDialog()
+            fechaescrita1=true
            botonactivado1=true
 
         }
 
         diamesaño2?.setOnClickListener {
             showDatePickerDialog()
+            fechaescrita2=true
             botonactivado2=true
         }
+        aplicar.setOnClickListener {
+           //se aplicarian los filtros
+        }
+        borrar.setOnClickListener {
+            pagadas.isChecked=false
+            pendientedepago.isChecked=false
+            plandepago.isChecked=false
+            cuotafija.isChecked=false
+            anuladas.isChecked=false
+            binding.importe.setText("")
+            rangeSeekBar.setRangeValues(9,100)
+            if (fechaescrita1==true ||fechaescrita2==true){
+                binding.diamesaO1.setText("")
+                binding.diamesaO2.setText("")
+            }
 
 
-
-
-
+        }
 
 
         //obtener el intent de la anterior clase o pantalla
