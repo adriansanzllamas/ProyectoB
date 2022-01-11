@@ -189,8 +189,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="30dp"
-                android:background="#8BC34A"
-                android:text="Aplicar Filtros"></Button>
+                android:background="@drawable/redondeo"
+                android:text="Aplicar Filtros"
+                ></Button>
 
             <Button
                 android:id="@+id/borrarfiltros"
@@ -198,7 +199,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:background="#00FFFFFF"
-                android:text="Borrar Filtros"></Button>
+                android:text="Borrar Filtros"
+                app:cornerRadius="20dp"></Button>
 
 
 

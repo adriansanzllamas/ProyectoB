@@ -22,41 +22,42 @@ lateinit var service: Apiservice
 val TAG_LOGS = "kikopalomares"
 
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     @SuppressLint("ResourceType")
-  //  lateinit var listadatos:ArrayList<String>
+    //  lateinit var listadatos:ArrayList<String>
     //lateinit var recyclerView:androidx.recyclerview.widget.RecyclerView
 
-    private var  Listadatos = ArrayList<InvoiceResponseVO?>()
+    private var Listadatos = ArrayList<InvoiceResponseVO?>()
 
 
     lateinit var adapter: FacturaHolder
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       binding= ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //creamos la variable de la toolbar de tipo toolbar
-        val toolbar =binding.toolbar
+        val toolbar = binding.toolbar
         //para poder administar la barra de opciones toolbar.
         setSupportActionBar(toolbar)
 
         llamadaRetrofit()
 
     }
+
     //https://howtodoandroid.com/retrofit-android-example-kotlin/
-    private fun llamadaRetrofit(){
+    private fun llamadaRetrofit() {
         CoroutineScope(Dispatchers.IO).launch {
-            val call=RetrofitHelper().getRetrofit().create(Apiservice::class.java).getAllFacturas().execute()
+            val call =
+                RetrofitHelper().getRetrofit().create(Apiservice::class.java).getAllFacturas()
+                    .execute()
             val factura: InvoiceResponseVO? = call.body()
 
-            adapter= FacturaHolder(this@MainActivity,factura!!.facturas)//tambn se puede hacer con InvoiceserviceVo en el recyclerview
+            adapter = FacturaHolder(this@MainActivity, factura!!.facturas)//tambn se puede hacer con InvoiceserviceVo en el recyclerview
 
-            if (call.isSuccessful){
+            if (call.isSuccessful) {
                 runOnUiThread {
 
                     Listadatos.clear()
@@ -65,14 +66,15 @@ class MainActivity : AppCompatActivity() {
                     //Log.i(TAG_LOGS,Listadatos.toString())
 
 
-                    val lista=binding.recyclerview
-                    lista.adapter=adapter
-                    lista.layoutManager=LinearLayoutManager(this@MainActivity)
+                    val lista = binding.recyclerview
+                    lista.adapter = adapter
+                    lista.layoutManager = LinearLayoutManager(this@MainActivity)
 
                 }
-            }else{
-              Toast.makeText(this@MainActivity,"no hay datos",Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this@MainActivity, "no hay datos", Toast.LENGTH_LONG).show()
             }
+            adapter.notifyDataSetChanged()
 
         }
 
@@ -80,9 +82,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    public fun initRecycleview(){
+    public fun initRecycleview() {
 // adapter=RecyclerView(FacturAS)
-       // var recycler:androidx.recyclerview.widget.RecyclerView=findViewById(R.id.recyclerview)
+        // var recycler:androidx.recyclerview.widget.RecyclerView=findViewById(R.id.recyclerview)
 
 
     }
@@ -92,7 +94,8 @@ class MainActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
-//las funciones para mostrar los elementos del menu y su funcionalidad
+
+    //las funciones para mostrar los elementos del menu y su funcionalidad
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
 
@@ -103,7 +106,7 @@ class MainActivity : AppCompatActivity() {
 
                 startActivity(intent)
 
-               return true
+                return true
             }
         }
         return true
