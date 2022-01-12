@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.R
 import com.example.proyecto.databinding.ItemFacturaBinding
 import com.example.proyecto.models.*
+import kotlin.properties.Delegates
 
 private val divisa: String = "€"
 
 
-class FacturaHolder(val context: Context, val facturalist: List<InvoiceVO>) :
+class FacturaHolder(val context: Context, val facturalist: MutableList<InvoiceVO?>) :
     RecyclerView.Adapter<FacturaHolder.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var descEstado: TextView
@@ -59,38 +60,34 @@ class FacturaHolder(val context: Context, val facturalist: List<InvoiceVO>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+
         if (facturalist != null) {
-            holder.descEstado.text = facturalist[position].descEstado
+            holder.descEstado.text = facturalist[position]!!.descEstado
             //aqui cambiamos el color del estado cuendo la posicion del estado es igual a pagada
-            if (facturalist[position].descEstado == "Pagada") {
+            if (facturalist[position]!!.descEstado == "Pagada") {
                 holder.descEstado.setTextColor(Color.BLACK)
             }
 
         }
         if (facturalist != null) {
             holder.importedeOrdenacion.text =
-                facturalist[position].importeOrdenacion.toString() + divisa
+                facturalist[position]!!.importeOrdenacion.toString() + divisa
         }
         if (facturalist != null) {
-            holder.fecha.text = facturalist[position].fecha
+            holder.fecha.text = facturalist[position]!!.fecha
         }
-
-        var facturanueva: InvoiceVO
-        facturanueva = facturalist[position]
-
-
-        // Log.i(TAG_LOGS, facturanueva.toString())
 
 
     }
 
-
     override fun getItemCount(): Int {
 
-        return facturalist!!.size
+        return facturalist.size
     }
 
 
 }
+
+
 
 

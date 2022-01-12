@@ -7,6 +7,9 @@ import android.os.Bundle
 import com.example.proyecto.R
 import com.example.proyecto.Network.Apiservice
 import android.content.Intent
+import android.nfc.Tag
+import android.os.PersistableBundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -14,12 +17,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto.Network.RetrofitHelper
 import com.example.proyecto.databinding.ActivityMainBinding
 import com.example.proyecto.models.InvoiceResponseVO
+import com.example.proyecto.models.InvoiceVO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 lateinit var service: Apiservice
 val TAG_LOGS = "kikopalomares"
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,9 +35,7 @@ class MainActivity : AppCompatActivity() {
     //  lateinit var listadatos:ArrayList<String>
     //lateinit var recyclerView:androidx.recyclerview.widget.RecyclerView
 
-    private var Listadatos = ArrayList<InvoiceResponseVO?>()
-
-
+    private var Listadatos = mutableListOf<InvoiceVO?>()
     lateinit var adapter: FacturaHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +49,8 @@ class MainActivity : AppCompatActivity() {
 
         llamadaRetrofit()
 
+
+
     }
 
     //https://howtodoandroid.com/retrofit-android-example-kotlin/
@@ -55,26 +61,40 @@ class MainActivity : AppCompatActivity() {
                     .execute()
             val factura: InvoiceResponseVO? = call.body()
 
-            adapter = FacturaHolder(this@MainActivity, factura!!.facturas)//tambn se puede hacer con InvoiceserviceVo en el recyclerview
+
+            //tambn se puede hacer con InvoiceserviceVo en el recyclerview
 
             if (call.isSuccessful) {
                 runOnUiThread {
 
-                    Listadatos.clear()
-                    Listadatos.addAll(listOf(factura))
-                    factura!!.facturas[1].importeOrdenacion
-                    //Log.i(TAG_LOGS,Listadatos.toString())
 
+                    Listadatos.clear()
+                    if (factura != null) {
+                        Listadatos.addAll(factura.facturas)
+                    }
+
+                    if (estadopagada!!.equals(true)){
+                        Listadatos.removeAll { it!!.descEstado!="Pagada" }
+                    }
+                    if (estadopendientedepago!!.equals(true)){
+                        Listadatos.removeAll { it!!.descEstado!="Pendiente de pago" }
+                    }
+
+
+
+
+                    adapter = FacturaHolder(this@MainActivity, Listadatos)
 
                     val lista = binding.recyclerview
                     lista.adapter = adapter
                     lista.layoutManager = LinearLayoutManager(this@MainActivity)
 
+
                 }
             } else {
                 Toast.makeText(this@MainActivity, "no hay datos", Toast.LENGTH_LONG).show()
             }
-            adapter.notifyDataSetChanged()
+
 
         }
 
@@ -102,9 +122,11 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.opcion1 -> {
                 val intent = Intent(this, Filtros::class.java)
-
-
                 startActivity(intent)
+                estadopagada=false
+                estadopendientedepago=false
+
+
 
                 return true
             }
@@ -112,6 +134,46 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log.i(TAG_LOGS,"start")
+        llamadaRetrofit()
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+
+
+
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+
+
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i(TAG_LOGS,"pausado")
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i(TAG_LOGS,"parado")
+
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i(TAG_LOGS,"destruido")
+    }
 
 }
 

@@ -1,6 +1,7 @@
 package com.example.proyecto.controlador
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,20 +28,35 @@ import kotlinx.coroutines.launch
 import me.bendik.simplerangeview.SimpleRangeView
 import org.florescu.android.rangeseekbar.RangeSeekBar
 import java.util.*
+import android.content.SharedPreferences
+import android.os.PersistableBundle
+import android.preference.PreferenceManager
+
+
+
+
+
+  public var estadopagada:Boolean=false
+  public var estadopendientedepago:Boolean=false
+  public var estadofecha: String=""
+  public var estadofecha2: String=""
+
+
+
 
 //https://www.youtube.com/watch?v=-GGcrlaEWUw
 
 class Filtros : AppCompatActivity() {
     private lateinit var binding: ActivityFiltrosBinding
     val TAG_LOGS = "kikopalomares"
-    private var diamesaño1: Button? = null
+    private  var diamesaño1: Button? = null
     private var diamesaño2: Button? = null
     private var desde: TextView? = null
     private var hasta: TextView? = null
     private var botonactivado1: Boolean = false
     private var botonactivado2: Boolean = false
     private lateinit var buscador: SearchView
-    private lateinit var pagadas: CheckBox
+    private lateinit  var pagadas: CheckBox
     private lateinit var pendientedepago: CheckBox
     private lateinit var anuladas: CheckBox
     private lateinit var cuotafija: CheckBox
@@ -51,7 +67,7 @@ class Filtros : AppCompatActivity() {
     private var fechaescrita1: Boolean = false
     private var fechaescrita2: Boolean = false
 
-
+    val sb: StringBuilder = StringBuilder()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -94,12 +110,12 @@ class Filtros : AppCompatActivity() {
         })
 
 
-
         diamesaño1?.setOnClickListener {
 
             showDatePickerDialog()
             fechaescrita1 = true
             botonactivado1 = true
+
 
         }
 
@@ -108,8 +124,22 @@ class Filtros : AppCompatActivity() {
             fechaescrita2 = true
             botonactivado2 = true
         }
+
+
         aplicar.setOnClickListener {
-            //se aplicarian los filtros
+            val intent=Intent(this,MainActivity::class.java)
+            if (pagadas.isChecked){
+                estadopagada=true
+            }else{
+                estadopagada==false
+            }
+            if (pendientedepago.isChecked){
+                estadopendientedepago=true
+            }else{
+                estadopendientedepago==false
+            }
+
+            startActivity(intent)
         }
         borrar.setOnClickListener {
             pagadas.isChecked = false
@@ -124,10 +154,7 @@ class Filtros : AppCompatActivity() {
                 binding.diamesaO2.setText("")
             }
 
-
         }
-        //obtener el intent de la anterior clase o pantalla
-        //val intent = intent
 
     }
 
@@ -142,10 +169,12 @@ class Filtros : AppCompatActivity() {
 
         if (botonactivado1 == true && botonactivado2 == false) {
             diamesaño1?.setText(" $dia/$mes/$ano")
+            estadofecha=binding.diamesaO1.toString()
 
             // botonactivado2==true
         } else {
             diamesaño2?.setText(" $dia/$mes/$ano")
+
 
             // botonactivado1==true
         }
@@ -166,14 +195,51 @@ class Filtros : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.opcion2 -> {
-                finish()
+               val intent=Intent(this,MainActivity::class.java)
+                startActivity(intent)
+                if (pagadas.isChecked){
+                    estadopagada=true
+                }else{
+                    estadopagada==false
+                }
+                if (pendientedepago.isChecked){
+                    estadopendientedepago=true
+                }else{
+                    estadopendientedepago==false
+                }
+
+
+                finishActivity(0)
+
                 return true
             }
         }
         return true
     }
 
+    override fun onStart() {
+        super.onStart()
+
+
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        finish()
+
+    }
 
 }
+
+
+
+
+
 
 
