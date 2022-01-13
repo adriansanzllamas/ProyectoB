@@ -4,8 +4,10 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
+import java.text.SimpleDateFormat
 import java.util.*
 
 //esta clase extiende del dialogfragment que es otra clase de android que muestra los diaologos con los que queremos trabajar.
@@ -28,6 +30,8 @@ class DatePickerFragment(val listener:(dia:Int,mes:Int,año:Int)->Unit):DialogFr
         val picker =DatePickerDialog(activity as Context,this,year,mes,dia)
     c.add(Calendar.YEAR, -20)
     picker.datePicker.minDate=c.timeInMillis
+
+
 
         return picker
     }

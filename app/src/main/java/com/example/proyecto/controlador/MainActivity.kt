@@ -3,6 +3,7 @@ package com.example.proyecto.controlador
 
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import com.example.proyecto.R
 import com.example.proyecto.Network.Apiservice
@@ -26,7 +27,7 @@ import kotlin.properties.Delegates
 lateinit var service: Apiservice
 val TAG_LOGS = "kikopalomares"
 
-
+public val SECOND_ACTIVITY_REQUEST_CODE = 0
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -47,7 +48,9 @@ class MainActivity : AppCompatActivity() {
         //para poder administar la barra de opciones toolbar.
         setSupportActionBar(toolbar)
 
+
         llamadaRetrofit()
+
 
 
 
@@ -63,9 +66,11 @@ class MainActivity : AppCompatActivity() {
 
 
             //tambn se puede hacer con InvoiceserviceVo en el recyclerview
+            val sps = getSharedPreferences("share", MODE_PRIVATE)
 
             if (call.isSuccessful) {
                 runOnUiThread {
+
 
 
                     Listadatos.clear()
@@ -73,15 +78,19 @@ class MainActivity : AppCompatActivity() {
                         Listadatos.addAll(factura.facturas)
                     }
 
-                    if (estadopagada!!.equals(true)){
+                    val estadopagada= sps?.getBoolean("pagada",false)
+                    val estadopendientedepago= sps?.getBoolean("pendientedepago",false)
+                    if (numero!=0){//para que no pinte las preferencias ya marcadas anteriormente
+
+                    if (estadopagada==true){
                         Listadatos.removeAll { it!!.descEstado!="Pagada" }
                     }
-                    if (estadopendientedepago!!.equals(true)){
+                    if (estadopendientedepago==true){
                         Listadatos.removeAll { it!!.descEstado!="Pendiente de pago" }
-                    }
-
-
-
+                    }/*
+                    if(estadofecha!=""){
+                        Listadatos.removeAll { it!!.fecha!= estadofecha }
+                    }*/}
 
                     adapter = FacturaHolder(this@MainActivity, Listadatos)
 
@@ -92,7 +101,7 @@ class MainActivity : AppCompatActivity() {
 
                 }
             } else {
-                Toast.makeText(this@MainActivity, "no hay datos", Toast.LENGTH_LONG).show()
+                println("no hay datos")
             }
 
 
@@ -122,10 +131,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.opcion1 -> {
                 val intent = Intent(this, Filtros::class.java)
-                startActivity(intent)
-                estadopagada=false
-                estadopendientedepago=false
-
+                startActivityForResult(intent, DEFAULT_KEYS_SEARCH_GLOBAL)
 
 
                 return true
@@ -152,6 +158,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRestart() {
         super.onRestart()
+
 
 
 

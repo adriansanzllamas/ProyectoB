@@ -1,5 +1,6 @@
 package com.example.proyecto.controlador
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -31,21 +32,18 @@ import java.util.*
 import android.content.SharedPreferences
 import android.os.PersistableBundle
 import android.preference.PreferenceManager
+import java.text.SimpleDateFormat
 
 
 
-
-
-  public var estadopagada:Boolean=false
-  public var estadopendientedepago:Boolean=false
-  public var estadofecha: String=""
   public var estadofecha2: String=""
 
 
-
+public var numero:Int=0//esta variable es para que no se inicien las preferencias directamente hasta que no entre y las haga
 
 //https://www.youtube.com/watch?v=-GGcrlaEWUw
 
+public val estadopagada:Boolean=false
 class Filtros : AppCompatActivity() {
     private lateinit var binding: ActivityFiltrosBinding
     val TAG_LOGS = "kikopalomares"
@@ -67,9 +65,14 @@ class Filtros : AppCompatActivity() {
     private var fechaescrita1: Boolean = false
     private var fechaescrita2: Boolean = false
 
+
+
+
     val sb: StringBuilder = StringBuilder()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
 
         binding = ActivityFiltrosBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -91,6 +94,9 @@ class Filtros : AppCompatActivity() {
 
 
         var volumen: TextView = binding.importe
+
+
+
 
         lateinit var rangeSeekBar: RangeSeekBar<Int>
         rangeSeekBar = binding.rangeseekbar as RangeSeekBar<Int>
@@ -128,7 +134,8 @@ class Filtros : AppCompatActivity() {
 
         aplicar.setOnClickListener {
             val intent=Intent(this,MainActivity::class.java)
-            if (pagadas.isChecked){
+            numero=1
+            /*if (pagadas.isChecked){
                 estadopagada=true
             }else{
                 estadopagada==false
@@ -138,8 +145,23 @@ class Filtros : AppCompatActivity() {
             }else{
                 estadopendientedepago==false
             }
+            if(binding.diamesaO1.text!=""){
 
-            startActivity(intent)
+                binding.diamesaO1.text= estadofecha
+                Log.i(TAG_LOGS, estadofecha)
+            }else{
+                estadofecha=""
+            }*/
+            val sps = getSharedPreferences("share", MODE_PRIVATE)
+            val editor: SharedPreferences.Editor = sps.edit()
+            editor.putBoolean("pagada",pagadas.isChecked)
+            editor.putBoolean("pendientedepago",pendientedepago.isChecked)
+            editor.apply()
+            setResult(Activity.RESULT_OK, intent)
+
+            finish()
+
+
         }
         borrar.setOnClickListener {
             pagadas.isChecked = false
@@ -156,6 +178,7 @@ class Filtros : AppCompatActivity() {
 
         }
 
+
     }
 
     public fun showDatePickerDialog() {
@@ -169,7 +192,8 @@ class Filtros : AppCompatActivity() {
 
         if (botonactivado1 == true && botonactivado2 == false) {
             diamesaño1?.setText(" $dia/$mes/$ano")
-            estadofecha=binding.diamesaO1.toString()
+            //val format = SimpleDateFormat("dd-MM-yyyy")
+            //estadofecha=" $dia/$mes/$ano"
 
             // botonactivado2==true
         } else {
@@ -197,7 +221,7 @@ class Filtros : AppCompatActivity() {
             R.id.opcion2 -> {
                val intent=Intent(this,MainActivity::class.java)
                 startActivity(intent)
-                if (pagadas.isChecked){
+                /*if (pagadas.isChecked){
                     estadopagada=true
                 }else{
                     estadopagada==false
@@ -207,15 +231,21 @@ class Filtros : AppCompatActivity() {
                 }else{
                     estadopendientedepago==false
                 }
-
-
-                finishActivity(0)
+                if(diamesaño1!!.isActivated){
+                    binding.diamesaO1.text= estadofecha
+                }else{
+                    estadofecha=""
+                }*/
+               finish()//no se superpongan las activities
 
                 return true
             }
         }
         return true
     }
+
+
+
 
     override fun onStart() {
         super.onStart()
@@ -231,11 +261,14 @@ class Filtros : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        finish()
+       /// finish()
 
     }
 
+
 }
+
+
 
 
 
