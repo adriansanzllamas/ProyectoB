@@ -27,8 +27,8 @@ import kotlin.properties.Delegates
 lateinit var service: Apiservice
 val TAG_LOGS = "kikopalomares"
 
-public val SECOND_ACTIVITY_REQUEST_CODE = 0
 
+public val SECOND_ACTIVITY_REQUEST_CODE = 0
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
@@ -52,8 +52,6 @@ class MainActivity : AppCompatActivity() {
         llamadaRetrofit()
 
 
-
-
     }
 
     //https://howtodoandroid.com/retrofit-android-example-kotlin/
@@ -72,25 +70,44 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
 
 
-
                     Listadatos.clear()
                     if (factura != null) {
                         Listadatos.addAll(factura.facturas)
                     }
 
-                    val estadopagada= sps?.getBoolean("pagada",false)
-                    val estadopendientedepago= sps?.getBoolean("pendientedepago",false)
-                    if (numero!=0){//para que no pinte las preferencias ya marcadas anteriormente
+                    val estadopagada = sps?.getBoolean("pagada", false)
+                    val estadopendientedepago = sps?.getBoolean("pendientedepago", false)
+                    val estadofecha1 = sps?.getString("fecha1", "")
+                    val estadofecha2=sps?.getString("fecha2","")
+                    val estadobarra=sps?.getString("barra","")
 
-                    if (estadopagada==true){
-                        Listadatos.removeAll { it!!.descEstado!="Pagada" }
+
+                    if (numero != 0) {//para que no pinte las preferencias ya marcadas anteriormente
+                        //ponemos primero los check box porque son los que determinan con mayor fuerza las facturas
+                            //que quieres filtrar de lo contrario se borrarian y no harian bien el filtrado. y se perderian datos.
+
+                        if (estadopagada == true) {
+                            Listadatos.removeAll { it!!.descEstado != "Pagada" }
+                        }
+                        if (estadopendientedepago == true) {
+                            Listadatos.removeAll { it!!.descEstado != "Pendiente de pago" }
+                        }
+                        if (estadofecha1 != "") {
+                            Log.i(TAG_LOGS,estadofecha1.toString())
+                            Listadatos.removeAll { (it!!.fecha) >= estadofecha1!! }
+                        }
+
+                        if (estadobarra!=""){
+
+                            val barra: Double = estadobarra!!.toDouble()
+                            Listadatos.removeAll { it!!.importeOrdenacion >=barra }
+                        }
+
+
+
+
+
                     }
-                    if (estadopendientedepago==true){
-                        Listadatos.removeAll { it!!.descEstado!="Pendiente de pago" }
-                    }/*
-                    if(estadofecha!=""){
-                        Listadatos.removeAll { it!!.fecha!= estadofecha }
-                    }*/}
 
                     adapter = FacturaHolder(this@MainActivity, Listadatos)
 
@@ -131,8 +148,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.opcion1 -> {
                 val intent = Intent(this, Filtros::class.java)
-                startActivityForResult(intent, DEFAULT_KEYS_SEARCH_GLOBAL)
-
+                startActivityForResult(intent,0)
 
                 return true
             }
@@ -142,7 +158,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        Log.i(TAG_LOGS,"start")
+        Log.i(TAG_LOGS, "start")
         llamadaRetrofit()
 
 
@@ -152,34 +168,30 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
 
-
-
     }
 
     override fun onRestart() {
         super.onRestart()
 
 
-
-
     }
 
     override fun onPause() {
         super.onPause()
-        Log.i(TAG_LOGS,"pausado")
+        Log.i(TAG_LOGS, "pausado")
 
     }
 
     override fun onStop() {
         super.onStop()
-        Log.i(TAG_LOGS,"parado")
+        Log.i(TAG_LOGS, "parado")
 
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.i(TAG_LOGS,"destruido")
+        Log.i(TAG_LOGS, "destruido")
     }
 
 }

@@ -118,17 +118,18 @@
                 android:textSize="15dp"></TextView>
 
 
-            <org.florescu.android.rangeseekbar.RangeSeekBar
+            <SeekBar
                 android:id="@+id/rangeseekbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:absoluteMaxValue="100"
-                app:absoluteMinValue="0"
+                app:absoluteMaxValue="100.00"
+                app:absoluteMinValue="0.00"
                 app:valuesAboveThumbs="true"
+
 
                 >
 
-            </org.florescu.android.rangeseekbar.RangeSeekBar>
+            </SeekBar>
 
 
             <View

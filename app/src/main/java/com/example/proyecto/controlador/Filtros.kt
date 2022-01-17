@@ -35,26 +35,27 @@ import android.preference.PreferenceManager
 import java.text.SimpleDateFormat
 
 
+public var estadofecha2: String = ""
 
-  public var estadofecha2: String=""
-
-
-public var numero:Int=0//esta variable es para que no se inicien las preferencias directamente hasta que no entre y las haga
+public var guaradrx:Int=0
+public var numero: Int =
+    0//esta variable es para que no se inicien las preferencias directamente hasta que no entre y las haga
 
 //https://www.youtube.com/watch?v=-GGcrlaEWUw
 
-public val estadopagada:Boolean=false
+public val estadopagada: Boolean = false
+
 class Filtros : AppCompatActivity() {
     private lateinit var binding: ActivityFiltrosBinding
     val TAG_LOGS = "kikopalomares"
-    private  var diamesaño1: Button? = null
+    private var diamesaño1: Button? = null
     private var diamesaño2: Button? = null
     private var desde: TextView? = null
     private var hasta: TextView? = null
     private var botonactivado1: Boolean = false
     private var botonactivado2: Boolean = false
     private lateinit var buscador: SearchView
-    private lateinit  var pagadas: CheckBox
+    private lateinit var pagadas: CheckBox
     private lateinit var pendientedepago: CheckBox
     private lateinit var anuladas: CheckBox
     private lateinit var cuotafija: CheckBox
@@ -64,13 +65,14 @@ class Filtros : AppCompatActivity() {
     private lateinit var borrar: Button
     private var fechaescrita1: Boolean = false
     private var fechaescrita2: Boolean = false
-
-
+    var fechaestado: String=""
+    var fechaestado2: String=""
 
 
     val sb: StringBuilder = StringBuilder()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
 
 
@@ -96,24 +98,55 @@ class Filtros : AppCompatActivity() {
         var volumen: TextView = binding.importe
 
 
+        lateinit var rangeSeekBar: SeekBar
+        rangeSeekBar = binding.rangeseekbar
+        rangeSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                val decimalProgress = progress.toDouble()
+                volumen.text = (decimalProgress.toString())
 
 
-        lateinit var rangeSeekBar: RangeSeekBar<Int>
-        rangeSeekBar = binding.rangeseekbar as RangeSeekBar<Int>
-        rangeSeekBar.setRangeValues(9, 100)
-        rangeSeekBar.setOnRangeSeekBarChangeListener(object :
-            RangeSeekBar.OnRangeSeekBarChangeListener<Int> {
-            override fun onRangeSeekBarValuesChanged(
-                bar: RangeSeekBar<*>?,
-                minValue: Int,
-                maxValue: Int
-            ) {
-                //  //Now you have the minValue and maxValue of your RangeSeekbar
-                // Toast.makeText(getActivity(), minValue + "-" + maxValue, Toast.LENGTH_LONG).show();
-                volumen.setText("$minValue-$maxValue")
             }
 
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
         })
+        if(guaradrx==1){
+            val sps = getSharedPreferences("share", MODE_PRIVATE)
+            val estadopagada = sps?.getBoolean("pagada", false)
+            val estadopendientedepago = sps?.getBoolean("pendientedepago", false)
+            val estadofecha1 = sps?.getString("fecha1", "")
+            val estadofecha2=sps?.getString("fecha2","")
+            val estadobarra=sps?.getString("barra","")
+            if(estadofecha1!=""){
+                Log.i(TAG_LOGS,estadofecha1.toString())
+                diamesaño1!!.text=estadofecha1
+            }else{
+                diamesaño1!!.text=""
+            }
+            if(estadopagada!=false){
+                pagadas.isChecked=true
+            }else{
+                pagadas.isChecked=false
+            }
+            if(estadopendientedepago!=false){
+                pendientedepago.isChecked=true
+            }else{
+                pendientedepago.isChecked=false
+            }
+
+            if(estadofecha2!=""){
+                diamesaño2!!.text=estadofecha2
+            }else{
+                diamesaño1!!.text=""
+            }
+
+
+        }
 
 
         diamesaño1?.setOnClickListener {
@@ -133,8 +166,8 @@ class Filtros : AppCompatActivity() {
 
 
         aplicar.setOnClickListener {
-            val intent=Intent(this,MainActivity::class.java)
-            numero=1
+            val intent = Intent(this, MainActivity::class.java)
+            numero = 1
             /*if (pagadas.isChecked){
                 estadopagada=true
             }else{
@@ -154,10 +187,15 @@ class Filtros : AppCompatActivity() {
             }*/
             val sps = getSharedPreferences("share", MODE_PRIVATE)
             val editor: SharedPreferences.Editor = sps.edit()
-            editor.putBoolean("pagada",pagadas.isChecked)
-            editor.putBoolean("pendientedepago",pendientedepago.isChecked)
+            editor.putBoolean("pagada", pagadas.isChecked)
+            editor.putBoolean("pendientedepago", pendientedepago.isChecked)
+            editor.putString("barra", volumen.text.toString())
+            editor.putString("fecha1", fechaestado)
+            editor.putString("fecha2", fechaestado2)
+
             editor.apply()
             setResult(Activity.RESULT_OK, intent)
+            guaradrx=1
 
             finish()
 
@@ -170,11 +208,12 @@ class Filtros : AppCompatActivity() {
             cuotafija.isChecked = false
             anuladas.isChecked = false
             binding.importe.setText("")
-            rangeSeekBar.setRangeValues(9, 100)
-            if (fechaescrita1 == true || fechaescrita2 == true) {
+            //barra
+            if (diamesaño1!!.text!="" || diamesaño2!!.text!="") {
                 binding.diamesaO1.setText("")
                 binding.diamesaO2.setText("")
             }
+
 
         }
 
@@ -191,14 +230,45 @@ class Filtros : AppCompatActivity() {
     public fun onDateSelected(dia: Int, mes: Int, ano: Int) {
 
         if (botonactivado1 == true && botonactivado2 == false) {
-            diamesaño1?.setText(" $dia/$mes/$ano")
-            //val format = SimpleDateFormat("dd-MM-yyyy")
-            //estadofecha=" $dia/$mes/$ano"
+
+            if ((mes == 1 || mes == 2 || mes == 3 || mes == 4 || mes == 5 || mes == 6 || mes == 7 || mes == 8 || mes == 9) && (dia == 1 || dia == 2 || dia == 3 || dia == 4 || dia == 5 || dia == 6 || dia == 7 || dia == 8 || dia == 9)) {
+                diamesaño1?.setText("0$dia/0$mes/$ano")
+                fechaestado = "0$dia/0$mes/$ano"
+
+            } else if ((mes == 1 || mes == 2 || mes == 3 || mes == 4 || mes == 5 || mes == 6 || mes == 7 || mes == 8 || mes == 9) && (dia != 1 || dia != 2 || dia != 3 || dia != 4 || dia != 5 || dia != 6 || dia != 7 || dia != 8 || dia != 9)) {
+                diamesaño1?.setText("$dia/0$mes/$ano")
+                fechaestado = "$dia/0$mes/$ano"
+            } else if ((mes != 1 || mes != 2 || mes != 3 || mes != 4 || mes != 5 || mes != 6 || mes != 7 || mes != 8 || mes != 9) && (dia == 1 || dia == 2 || dia == 3 || dia == 4 || dia == 5 || dia == 6 || dia == 7 || dia == 8 || dia == 9)) {
+                diamesaño1?.setText("0$dia/$mes/$ano")
+                fechaestado = "0$dia/$mes/$ano"
+
+            } else {
+                diamesaño1?.setText("$dia/$mes/$ano")
+                fechaestado = "$dia/$mes/$ano"
+
+
+            }
 
             // botonactivado2==true
         } else {
-            diamesaño2?.setText(" $dia/$mes/$ano")
 
+            if ((mes == 1 || mes == 2 || mes == 3 || mes == 4 || mes == 5 || mes == 6 || mes == 7 || mes == 8 || mes == 9) && (dia == 1 || dia == 2 || dia == 3 || dia == 4 || dia == 5 || dia == 6 || dia == 7 || dia == 8 || dia == 9)) {
+                diamesaño2?.setText("0$dia/0$mes/$ano")
+                fechaestado2 = "0$dia/0$mes/$ano"
+
+
+            } else if ((mes == 1 || mes == 2 || mes == 3 || mes == 4 || mes == 5 || mes == 6 || mes == 7 || mes == 8 || mes == 9) && (dia != 1 || dia != 2 || dia != 3 || dia != 4 || dia != 5 || dia != 6 || dia != 7 || dia != 8 || dia != 9)) {
+                diamesaño2?.setText("$dia/0$mes/$ano")
+                fechaestado2 = "$dia/0$mes/$ano"
+
+            } else if ((mes != 1 || mes != 2 || mes != 3 || mes != 4 || mes != 5 || mes != 6 || mes != 7 || mes != 8 || mes != 9) && (dia == 1 || dia == 2 || dia == 3 || dia == 4 || dia == 5 || dia == 6 || dia == 7 || dia == 8 || dia == 9)) {
+                diamesaño2?.setText("0$dia/$mes/$ano")
+                fechaestado2 = "0$dia/$mes/$ano"
+
+            } else {
+                diamesaño2?.setText("$dia/$mes/$ano")
+                fechaestado2 = "$dia/$mes/$ano"
+            }
 
             // botonactivado1==true
         }
@@ -219,24 +289,10 @@ class Filtros : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.opcion2 -> {
-               val intent=Intent(this,MainActivity::class.java)
-                startActivity(intent)
-                /*if (pagadas.isChecked){
-                    estadopagada=true
-                }else{
-                    estadopagada==false
-                }
-                if (pendientedepago.isChecked){
-                    estadopendientedepago=true
-                }else{
-                    estadopendientedepago==false
-                }
-                if(diamesaño1!!.isActivated){
-                    binding.diamesaO1.text= estadofecha
-                }else{
-                    estadofecha=""
-                }*/
-               finish()//no se superpongan las activities
+                val intent = Intent(this, MainActivity::class.java)
+               guaradrx=1
+
+                finish()//no se superpongan las activities
 
                 return true
             }
@@ -245,11 +301,8 @@ class Filtros : AppCompatActivity() {
     }
 
 
-
-
     override fun onStart() {
         super.onStart()
-
 
 
     }
@@ -261,7 +314,7 @@ class Filtros : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-       /// finish()
+        /// finish()
 
     }
 
