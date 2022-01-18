@@ -32,12 +32,12 @@ import java.util.*
 import android.content.SharedPreferences
 import android.os.PersistableBundle
 import android.preference.PreferenceManager
+import com.google.android.material.slider.Slider
 import java.text.SimpleDateFormat
 
 
-public var estadofecha2: String = ""
-
-public var guaradrx:Int=0
+public var numerofecha: Int = 0
+public var guaradrx: Int = 0
 public var numero: Int =
     0//esta variable es para que no se inicien las preferencias directamente hasta que no entre y las haga
 
@@ -65,8 +65,8 @@ class Filtros : AppCompatActivity() {
     private lateinit var borrar: Button
     private var fechaescrita1: Boolean = false
     private var fechaescrita2: Boolean = false
-    var fechaestado: String=""
-    var fechaestado2: String=""
+    lateinit var fechaestado: String
+    lateinit var fechaestado2: String
 
 
     val sb: StringBuilder = StringBuilder()
@@ -115,34 +115,53 @@ class Filtros : AppCompatActivity() {
 
             }
         })
-        if(guaradrx==1){
+        if (((diamesaño1!!.isActivated && (diamesaño1!!.text != "")) && ((diamesaño2!!.isActivated) && (diamesaño2!!.text != "")))) {
+            numerofecha = 1
+        }
+        if (guaradrx == 1) {
             val sps = getSharedPreferences("share", MODE_PRIVATE)
+            val editor: SharedPreferences.Editor = sps.edit()
             val estadopagada = sps?.getBoolean("pagada", false)
             val estadopendientedepago = sps?.getBoolean("pendientedepago", false)
             val estadofecha1 = sps?.getString("fecha1", "")
-            val estadofecha2=sps?.getString("fecha2","")
-            val estadobarra=sps?.getString("barra","")
-            if(estadofecha1!=""){
-                Log.i(TAG_LOGS,estadofecha1.toString())
-                diamesaño1!!.text=estadofecha1
-            }else{
-                diamesaño1!!.text=""
+            val estadofecha2 = sps?.getString("fecha2", "")
+            val estadobarra = sps?.getString("barra", "")
+            if (estadofecha1 != "") {
+                Log.i(TAG_LOGS, estadofecha1.toString())
+                diamesaño1!!.text = estadofecha1
+                editor.putString("fecha1", diamesaño1!!.text.toString())
+                editor.apply()
+            } else {
+                diamesaño1!!.text = ""
+                editor.putString("fecha1", diamesaño1!!.text.toString())
+                editor.apply()
             }
-            if(estadopagada!=false){
-                pagadas.isChecked=true
-            }else{
-                pagadas.isChecked=false
+            if (estadopagada != false) {
+                pagadas.isChecked = true
+            } else {
+                pagadas.isChecked = false
             }
-            if(estadopendientedepago!=false){
-                pendientedepago.isChecked=true
-            }else{
-                pendientedepago.isChecked=false
+            if (estadopendientedepago != false) {
+                pendientedepago.isChecked = true
+            } else {
+                pendientedepago.isChecked = false
             }
 
-            if(estadofecha2!=""){
-                diamesaño2!!.text=estadofecha2
-            }else{
-                diamesaño1!!.text=""
+            if (estadofecha2 != "") {
+                diamesaño2!!.text = estadofecha2
+                editor.putString("fecha2", diamesaño2!!.text.toString())
+                editor.apply()
+            } else {
+                diamesaño1!!.text = ""
+                editor.putString("fecha1", diamesaño2!!.text.toString())
+                editor.apply()
+            }
+            if (estadobarra != "") {
+                volumen.text = estadobarra
+                editor.putString("barra", volumen.text.toString())
+                val dato = estadobarra!!.toDouble().toInt()
+                rangeSeekBar.setProgress(dato)
+                editor.apply()
             }
 
 
@@ -168,34 +187,18 @@ class Filtros : AppCompatActivity() {
         aplicar.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             numero = 1
-            /*if (pagadas.isChecked){
-                estadopagada=true
-            }else{
-                estadopagada==false
-            }
-            if (pendientedepago.isChecked){
-                estadopendientedepago=true
-            }else{
-                estadopendientedepago==false
-            }
-            if(binding.diamesaO1.text!=""){
 
-                binding.diamesaO1.text= estadofecha
-                Log.i(TAG_LOGS, estadofecha)
-            }else{
-                estadofecha=""
-            }*/
             val sps = getSharedPreferences("share", MODE_PRIVATE)
             val editor: SharedPreferences.Editor = sps.edit()
             editor.putBoolean("pagada", pagadas.isChecked)
             editor.putBoolean("pendientedepago", pendientedepago.isChecked)
             editor.putString("barra", volumen.text.toString())
-            editor.putString("fecha1", fechaestado)
-            editor.putString("fecha2", fechaestado2)
+            editor.putString("fecha1", diamesaño1!!.text.toString())
+            editor.putString("fecha2", diamesaño2!!.text.toString())
 
             editor.apply()
             setResult(Activity.RESULT_OK, intent)
-            guaradrx=1
+            guaradrx = 1
 
             finish()
 
@@ -207,9 +210,10 @@ class Filtros : AppCompatActivity() {
             plandepago.isChecked = false
             cuotafija.isChecked = false
             anuladas.isChecked = false
+            rangeSeekBar.setProgress(0)
             binding.importe.setText("")
             //barra
-            if (diamesaño1!!.text!="" || diamesaño2!!.text!="") {
+            if (diamesaño1!!.text != "" || diamesaño2!!.text != "") {
                 binding.diamesaO1.setText("")
                 binding.diamesaO2.setText("")
             }
@@ -290,7 +294,7 @@ class Filtros : AppCompatActivity() {
         when (item.itemId) {
             R.id.opcion2 -> {
                 val intent = Intent(this, MainActivity::class.java)
-               guaradrx=1
+                guaradrx = 1
 
                 finish()//no se superpongan las activities
 
@@ -314,7 +318,7 @@ class Filtros : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        /// finish()
+
 
     }
 

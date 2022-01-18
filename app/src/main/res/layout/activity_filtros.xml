@@ -31,6 +31,7 @@
 
             <TextView
                 android:id="@+id/filtarfacturas"
+                android:layout_marginStart="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Filtrar Facturas"
@@ -39,6 +40,7 @@
 
             <TextView
                 android:id="@+id/fechadeemisor"
+                android:layout_marginStart="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -55,6 +57,7 @@
                     android:id="@+id/desde"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:text="Desde:"
                     android:textSize="19dp" />
@@ -78,6 +81,7 @@
                     android:id="@+id/diamesaño1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:hint="dia/mes/año"></Button>
 
@@ -105,6 +109,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Por un importe"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
                 android:textColor="@color/black"
                 android:textSize="15dp"></TextView>
 
@@ -114,6 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textAlignment="center"
+                android:layout_marginEnd="10dp"
                 android:textColor="@color/black"
                 android:textSize="15dp"></TextView>
 
@@ -122,6 +129,8 @@
                 android:id="@+id/rangeseekbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 app:absoluteMaxValue="100.00"
                 app:absoluteMinValue="0.00"
                 app:valuesAboveThumbs="true"
@@ -145,6 +154,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:text="Por estado"
                 android:textColor="@color/black"
                 android:textSize="15dp"></TextView>
@@ -154,12 +165,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
                 android:text="Pagadas"></CheckBox>
 
             <CheckBox
                 android:id="@+id/anuladas"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Anuladas"></CheckBox>
 
@@ -167,6 +182,8 @@
                 android:id="@+id/cuotafija"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Cuota Fija"></CheckBox>
 
@@ -174,6 +191,8 @@
                 android:id="@+id/pendientedepago"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Pendiente de Pago"></CheckBox>
 
@@ -181,6 +200,8 @@
                 android:id="@+id/plandepago"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="10dp"
                 android:text="Plan de Pago"></CheckBox>
 
@@ -189,6 +210,8 @@
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/redondeo"
                 android:text="Aplicar Filtros"
@@ -198,8 +221,11 @@
                 android:id="@+id/borrarfiltros"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="5dp"
-                android:background="#00FFFFFF"
+                android:background="@drawable/redondeosincolor"
+                android:outlineSpotShadowColor="@color/black"
                 android:text="Borrar Filtros"
                 app:cornerRadius="20dp"></Button>
 

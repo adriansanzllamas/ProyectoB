@@ -68,6 +68,7 @@ class FacturaHolder(val context: Context, val facturalist: MutableList<InvoiceVO
                 holder.descEstado.setTextColor(Color.BLACK)
             }
 
+
         }
         if (facturalist != null) {
             holder.importedeOrdenacion.text =

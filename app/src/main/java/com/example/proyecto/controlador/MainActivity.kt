@@ -8,12 +8,14 @@ import android.os.Bundle
 import com.example.proyecto.R
 import com.example.proyecto.Network.Apiservice
 import android.content.Intent
+import android.icu.util.Calendar.DAY_OF_YEAR
 import android.nfc.Tag
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto.Network.RetrofitHelper
 import com.example.proyecto.databinding.ActivityMainBinding
@@ -22,6 +24,10 @@ import com.example.proyecto.models.InvoiceVO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.Calendar.DAY_OF_YEAR
 import kotlin.properties.Delegates
 
 lateinit var service: Apiservice
@@ -85,16 +91,31 @@ class MainActivity : AppCompatActivity() {
                     if (numero != 0) {//para que no pinte las preferencias ya marcadas anteriormente
                         //ponemos primero los check box porque son los que determinan con mayor fuerza las facturas
                             //que quieres filtrar de lo contrario se borrarian y no harian bien el filtrado. y se perderian datos.
-
+                        val formato = SimpleDateFormat("dd/MM/yyyy")
                         if (estadopagada == true) {
                             Listadatos.removeAll { it!!.descEstado != "Pagada" }
                         }
                         if (estadopendientedepago == true) {
                             Listadatos.removeAll { it!!.descEstado != "Pendiente de pago" }
                         }
-                        if (estadofecha1 != "") {
+                        if ((estadofecha1 != "") && (estadofecha2=="")) {
                             Log.i(TAG_LOGS,estadofecha1.toString())
-                            Listadatos.removeAll { (it!!.fecha) >= estadofecha1!! }
+                            Listadatos.removeAll { it!!.fecha!=(estadofecha1!!)}
+                        }
+                        if (estadofecha2 != ""&&estadofecha1=="") {
+                            Log.i(TAG_LOGS,estadofecha1.toString())
+                            Listadatos.removeAll { (it!!.fecha)!=estadofecha2!! }
+                        }
+
+                        if (estadofecha1 != "" && estadofecha2 != "") {
+                            Listadatos.removeAll {
+                                formato.parse(it!!.fecha).before(formato.parse(estadofecha1!!))
+                            }
+                            Listadatos.removeAll {
+                                formato.parse(it!!.fecha).after(formato.parse(estadofecha2!!))
+                            }
+
+                            Log.i(TAG_LOGS, Listadatos.toString())
                         }
 
                         if (estadobarra!=""){
@@ -102,6 +123,7 @@ class MainActivity : AppCompatActivity() {
                             val barra: Double = estadobarra!!.toDouble()
                             Listadatos.removeAll { it!!.importeOrdenacion >=barra }
                         }
+
 
 
 
@@ -118,7 +140,7 @@ class MainActivity : AppCompatActivity() {
 
                 }
             } else {
-                println("no hay datos")
+                Toast.makeText(this@MainActivity,"No hay datos",Toast.LENGTH_LONG).show()
             }
 
 
