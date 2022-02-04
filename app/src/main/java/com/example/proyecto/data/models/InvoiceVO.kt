@@ -1,4 +1,4 @@
-package com.example.proyecto.models
+package com.example.proyecto.data.models
 
   data class InvoiceVO(
      val descEstado: String,

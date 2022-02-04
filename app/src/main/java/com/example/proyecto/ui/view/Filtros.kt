@@ -1,39 +1,17 @@
-package com.example.proyecto.controlador
+package com.example.proyecto.ui.view
 
 import android.app.Activity
-import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.proyecto.R
 import android.content.Intent
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.*
-import androidx.appcompat.widget.Toolbar
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.proyecto.Network.Apiservice
-import com.example.proyecto.Network.RetrofitHelper
-import com.example.proyecto.controlador.Filtros
 import com.example.proyecto.databinding.ActivityFiltrosBinding
-import com.example.proyecto.databinding.ActivityMainBinding
-import com.example.proyecto.models.InvoiceResponseVO
-import com.example.proyecto.models.InvoiceVO
-import com.google.android.material.internal.ContextUtils.getActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import me.bendik.simplerangeview.SimpleRangeView
-import org.florescu.android.rangeseekbar.RangeSeekBar
 import java.util.*
 import android.content.SharedPreferences
-import android.os.PersistableBundle
-import android.preference.PreferenceManager
-import com.google.android.material.slider.Slider
-import java.text.SimpleDateFormat
 
 
 public var numerofecha: Int = 0

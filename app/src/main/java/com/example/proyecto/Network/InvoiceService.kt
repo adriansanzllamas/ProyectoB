@@ -1,8 +1,7 @@
 package com.example.proyecto.Network
 
 
-import com.example.proyecto.models.InvoiceResponseVO
-import com.example.proyecto.models.InvoiceVO
+import com.example.proyecto.data.models.InvoiceResponseVO
 import retrofit2.Response
 import java.io.IOException
 

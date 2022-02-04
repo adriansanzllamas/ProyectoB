@@ -1,4 +1,4 @@
-package com.example.proyecto.models
+package com.example.proyecto.data.models
 
  data class InvoiceResponseVO(
      var numFacturas: Double,

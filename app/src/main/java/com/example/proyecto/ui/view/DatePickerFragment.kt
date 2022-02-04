@@ -1,13 +1,11 @@
-package com.example.proyecto.controlador
+package com.example.proyecto.ui.view
 
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
-import java.text.SimpleDateFormat
 import java.util.*
 
 //esta clase extiende del dialogfragment que es otra clase de android que muestra los diaologos con los que queremos trabajar.

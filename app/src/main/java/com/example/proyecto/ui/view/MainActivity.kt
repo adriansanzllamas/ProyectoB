@@ -1,34 +1,26 @@
-package com.example.proyecto.controlador
+package com.example.proyecto.ui.view
 
 
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import com.example.proyecto.R
 import com.example.proyecto.Network.Apiservice
 import android.content.Intent
-import android.icu.util.Calendar.DAY_OF_YEAR
-import android.nfc.Tag
-import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.core.text.parseAsHtml
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto.Network.RetrofitHelper
 import com.example.proyecto.databinding.ActivityMainBinding
-import com.example.proyecto.models.InvoiceResponseVO
-import com.example.proyecto.models.InvoiceVO
+import com.example.proyecto.data.models.InvoiceResponseVO
+import com.example.proyecto.data.models.InvoiceVO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.Calendar.DAY_OF_YEAR
-import kotlin.properties.Delegates
 
 lateinit var service: Apiservice
 val TAG_LOGS = "kikopalomares"
@@ -126,9 +118,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
-
-
                     }
 
                     adapter = FacturaHolder(this@MainActivity, Listadatos)
@@ -142,7 +131,7 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this@MainActivity,"No hay datos",Toast.LENGTH_LONG).show()
             }
-//esto es un mensaje
+
 
         }
 

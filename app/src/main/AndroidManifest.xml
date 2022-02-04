@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".controlador.Filtros"
+            android:name="com.example.proyecto.ui.view.Filtros"
             android:exported="false" />
         <activity
-            android:name=".controlador.MainActivity"
+            android:name="com.example.proyecto.ui.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

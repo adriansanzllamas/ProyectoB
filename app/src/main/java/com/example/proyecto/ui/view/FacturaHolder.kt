@@ -1,4 +1,4 @@
-package com.example.proyecto.controlador
+package com.example.proyecto.ui.view
 
 import android.app.AlertDialog
 import android.content.Context
@@ -12,8 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.R
 import com.example.proyecto.databinding.ItemFacturaBinding
-import com.example.proyecto.models.*
-import kotlin.properties.Delegates
+import com.example.proyecto.data.models.InvoiceVO
 
 private val divisa: String = "€"
 
