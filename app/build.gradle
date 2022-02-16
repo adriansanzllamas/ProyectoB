@@ -32,7 +32,7 @@ android {
         viewBinding = true
     }
 }
-
+apply plugin: 'kotlin-kapt'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -61,4 +61,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
+    //Room
+    implementation "androidx.room:room-ktx:2.4.0"
+    kapt "androidx.room:room-compiler:2.4.0"
 }
