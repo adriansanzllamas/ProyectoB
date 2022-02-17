@@ -11,11 +11,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto.Network.RetrofitHelper
 import com.example.proyecto.databinding.ActivityMainBinding
 import com.example.proyecto.data.models.InvoiceResponseVO
 import com.example.proyecto.data.models.InvoiceVO
+import com.example.proyecto.ui.vistamodelo.mainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,9 +32,14 @@ public val SECOND_ACTIVITY_REQUEST_CODE = 0
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
+// se encargara de conectar la activity con nuestro Viewmodel
+    private  val mainViewModel: mainViewModel by viewModels()
+
     @SuppressLint("ResourceType")
     //  lateinit var listadatos:ArrayList<String>
     //lateinit var recyclerView:androidx.recyclerview.widget.RecyclerView
+
+
 
     private var Listadatos = mutableListOf<InvoiceVO?>()
     lateinit var adapter: FacturaHolder
@@ -43,11 +50,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         //creamos la variable de la toolbar de tipo toolbar
         val toolbar = binding.toolbar
+
+
         //para poder administar la barra de opciones toolbar.
         setSupportActionBar(toolbar)
 
 
         llamadaRetrofit()
+
 
 
     }
