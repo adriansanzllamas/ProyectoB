@@ -58,6 +58,8 @@ class MainActivity : AppCompatActivity() {
 
         llamadaRetrofit()
 
+        mainViewModel.onCreate()
+
 
 
     }
