@@ -9,15 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.R
-import com.example.proyecto.databinding.ItemFacturaBinding
 import com.example.proyecto.data.models.InvoiceVO
+import com.example.proyecto.data.repository
+import com.example.proyecto.databinding.ItemFacturaBinding
 
 private val divisa: String = "€"
 
 
-class FacturaHolder(val context: Context, val facturalist: MutableList<InvoiceVO?>) :
+class FacturaHolder(val context: Context, val facturalist: List<InvoiceVO?>) :
     RecyclerView.Adapter<FacturaHolder.ViewHolder>() {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var descEstado: TextView

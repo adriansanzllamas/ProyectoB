@@ -7,15 +7,18 @@ import android.os.Bundle
 import com.example.proyecto.R
 import com.example.proyecto.Network.Apiservice
 import android.content.Intent
+import android.nfc.Tag
+import android.text.Html
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto.Network.RetrofitHelper
-import com.example.proyecto.databinding.ActivityMainBinding
 import com.example.proyecto.data.models.InvoiceResponseVO
+import com.example.proyecto.databinding.ActivityMainBinding
 import com.example.proyecto.data.models.InvoiceVO
 import com.example.proyecto.ui.vistamodelo.mainViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -26,13 +29,14 @@ import java.util.*
 
 lateinit var service: Apiservice
 val TAG_LOGS = "kikopalomares"
-
-
+lateinit var adapter: FacturaHolder
 public val SECOND_ACTIVITY_REQUEST_CODE = 0
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-// se encargara de conectar la activity con nuestro Viewmodel
+
+
+    // se encargara de conectar la activity con nuestro Viewmodel
     private  val mainViewModel: mainViewModel by viewModels()
 
     @SuppressLint("ResourceType")
@@ -42,9 +46,9 @@ class MainActivity : AppCompatActivity() {
 
 
     private var Listadatos = mutableListOf<InvoiceVO?>()
-    lateinit var adapter: FacturaHolder
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+    override  fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -56,14 +60,33 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
 
-        llamadaRetrofit()
 
-        mainViewModel.onCreate()
+
+
+
+
 
 
 
     }
+    private fun todasfacturas(){
+        Log.i(TAG_LOGS, "start")
+        //llamadaRetrofit()
+        mainViewModel.onCreate()
 
+        mainViewModel.facturaslivedata.observe(this){
+            Log.i(TAG_LOGS,it.toString())
+
+            adapter = FacturaHolder(this@MainActivity, it!!.facturas)
+
+            val lista = binding.recyclerview
+            lista.adapter = adapter
+            lista.layoutManager = LinearLayoutManager(this@MainActivity)
+
+        }
+
+    }
+/*
     //https://howtodoandroid.com/retrofit-android-example-kotlin/
     private fun llamadaRetrofit() {
         CoroutineScope(Dispatchers.IO).launch {
@@ -94,7 +117,7 @@ class MainActivity : AppCompatActivity() {
 
                     if (numero != 0) {//para que no pinte las preferencias ya marcadas anteriormente
                         //ponemos primero los check box porque son los que determinan con mayor fuerza las facturas
-                            //que quieres filtrar de lo contrario se borrarian y no harian bien el filtrado. y se perderian datos.
+                        //que quieres filtrar de lo contrario se borrarian y no harian bien el filtrado. y se perderian datos.
                         val formato = SimpleDateFormat("dd/MM/yyyy")
                         if (estadopagada == true) {
                             Listadatos.removeAll { it!!.descEstado != "Pagada" }
@@ -148,7 +171,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-    }
+    }*/
 
 
     public fun initRecycleview() {
@@ -182,7 +205,17 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         Log.i(TAG_LOGS, "start")
-        llamadaRetrofit()
+        //llamadaRetrofit()
+        mainViewModel.onCreate()
+        mainViewModel.facturaslivedata.observe(this){
+            Log.i(TAG_LOGS,it.toString())
+
+            adapter = FacturaHolder(this@MainActivity, it!!.facturas)
+
+            val lista = binding.recyclerview
+            lista.adapter = adapter
+            lista.layoutManager = LinearLayoutManager(this@MainActivity)
+        }
 
 
     }
