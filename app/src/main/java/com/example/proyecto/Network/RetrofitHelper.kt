@@ -11,6 +11,6 @@ class RetrofitHelper {
     }
 
     companion object {
-        private const val BASE_URL = "https://viewnextandroid.mocklab.io/"
+        private const val BASE_URL = "https://viewnextandroid2.mocklab.io/"
     }
 }

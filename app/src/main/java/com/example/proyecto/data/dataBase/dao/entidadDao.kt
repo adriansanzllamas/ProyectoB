@@ -10,7 +10,7 @@ import com.example.proyecto.data.dataBase.entities.entidad
 //aqui tendremos nuestras queries
 @Dao
 interface entidadDao {
-    @Query("SELECT * FROM tabla_entidad ORDER BY descEstado DESC")
+    @Query("SELECT * FROM tabla_entidad")
     suspend fun getAllentidad():List<entidad>
 //utilizamos el suspend para que estas funciones no se ejecuten en el hilo principal.
     //inserts

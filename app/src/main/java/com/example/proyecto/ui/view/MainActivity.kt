@@ -3,6 +3,7 @@ package com.example.proyecto.ui.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import com.example.proyecto.R
 import com.example.proyecto.Network.Apiservice
@@ -12,14 +13,17 @@ import android.text.Html
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.proyecto.Network.RetrofitHelper
 import com.example.proyecto.data.models.InvoiceResponseVO
 import com.example.proyecto.databinding.ActivityMainBinding
 import com.example.proyecto.data.models.InvoiceVO
+import com.example.proyecto.data.repository
 import com.example.proyecto.ui.vistamodelo.mainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -54,38 +58,35 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         //creamos la variable de la toolbar de tipo toolbar
         val toolbar = binding.toolbar
-
-
         //para poder administar la barra de opciones toolbar.
         setSupportActionBar(toolbar)
+        mainViewModel.onCreate()
+            Log.i(TAG_LOGS, "comenzando")
+            //llamadaRetrofit()
 
-
-
-
-
-
-
-
-
+        todasfacturas()
 
     }
     private fun todasfacturas(){
-        Log.i(TAG_LOGS, "start")
-        //llamadaRetrofit()
         mainViewModel.onCreate()
-
         mainViewModel.facturaslivedata.observe(this){
             Log.i(TAG_LOGS,it.toString())
+            if (it != null){
+                Listadatos.addAll(it.facturas)
+                adapter = FacturaHolder(this@MainActivity, Listadatos)
+                val lista = binding.recyclerview
+                lista.adapter = adapter
+                lista.layoutManager = LinearLayoutManager(this@MainActivity)
 
-            adapter = FacturaHolder(this@MainActivity, it!!.facturas)
-
-            val lista = binding.recyclerview
-            lista.adapter = adapter
-            lista.layoutManager = LinearLayoutManager(this@MainActivity)
+            }else{
+                Toast.makeText(this,"a habido un eerror",Toast.LENGTH_LONG).show()
+            }
 
         }
 
+
     }
+
 /*
     //https://howtodoandroid.com/retrofit-android-example-kotlin/
     private fun llamadaRetrofit() {
@@ -206,7 +207,15 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         Log.i(TAG_LOGS, "start")
         //llamadaRetrofit()
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //llamadaRetrofit()
         mainViewModel.onCreate()
+
         mainViewModel.facturaslivedata.observe(this){
             Log.i(TAG_LOGS,it.toString())
 
@@ -215,13 +224,9 @@ class MainActivity : AppCompatActivity() {
             val lista = binding.recyclerview
             lista.adapter = adapter
             lista.layoutManager = LinearLayoutManager(this@MainActivity)
+
         }
 
-
-    }
-
-    override fun onResume() {
-        super.onResume()
 
 
     }
