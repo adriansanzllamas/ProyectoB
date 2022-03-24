@@ -9,11 +9,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.proyecto.data.dataBase.dao.entidadDao
-import com.example.proyecto.data.dataBase.entities.entidad
-import com.example.proyecto.data.dataBase.entities.toDatabase
 import com.example.proyecto.data.models.InvoiceResponseVO
 import com.example.proyecto.data.models.InvoiceVO
-import com.example.proyecto.data.models.toDomain
 import com.example.proyecto.domain.Casodeuso1
 import com.example.proyecto.ui.view.FacturaHolder
 import com.example.proyecto.ui.view.MainActivity
@@ -36,6 +33,7 @@ class mainViewModel:ViewModel() {
                 if (result!= null) {
                     facturamodel.postValue(result)
                     //como no esta vacio hacemos el insert a la base de datos
+
                 }
         }
 

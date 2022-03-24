@@ -5,17 +5,17 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.proyecto.data.dataBase.entities.entidad
+import com.example.proyecto.data.models.InvoiceVO
 
 //aqui tendremos nuestras queries
 @Dao
 interface entidadDao {
     @Query("SELECT * FROM tabla_entidad")
-    suspend fun getAllentidad():List<entidad>
+    suspend fun getAllentidad():List<InvoiceVO>
 //utilizamos el suspend para que estas funciones no se ejecuten en el hilo principal.
     //inserts
     //lo que hacemos aqui es poner una condicion para que reemplace lo que hay en la base de datos por la nueva informacion
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun pushAllentidad(facturas:List<entidad>)
+    suspend fun pushAllentidad(facturas:List<InvoiceVO>)
 
 }

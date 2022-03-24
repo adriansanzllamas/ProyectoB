@@ -5,5 +5,5 @@ import androidx.room.Room
 // en esta clase lo que hacemos es montar nuestro Room con la base de datos.
 class FacturaBD: Application() {
 // desde cualquir lado podremos acceder a la base de datos con esta clase
-    val room =Room.databaseBuilder(this,FacturasBasedeDatos::class.java,"facturas").build()
+    val room =Room.databaseBuilder(applicationContext,FacturasBasedeDatos::class.java,"facturas").build()
 }

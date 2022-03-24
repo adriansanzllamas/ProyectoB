@@ -19,7 +19,10 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.example.proyecto.Network.RetrofitHelper
+import com.example.proyecto.data.dataBase.FacturaBD
+import com.example.proyecto.data.dataBase.FacturasBasedeDatos
 import com.example.proyecto.data.models.InvoiceResponseVO
 import com.example.proyecto.databinding.ActivityMainBinding
 import com.example.proyecto.data.models.InvoiceVO
@@ -35,6 +38,7 @@ lateinit var service: Apiservice
 val TAG_LOGS = "kikopalomares"
 lateinit var adapter: FacturaHolder
 public val SECOND_ACTIVITY_REQUEST_CODE = 0
+val repositorio=repository()
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
@@ -60,27 +64,23 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.toolbar
         //para poder administar la barra de opciones toolbar.
         setSupportActionBar(toolbar)
-        mainViewModel.onCreate()
-            Log.i(TAG_LOGS, "comenzando")
-            //llamadaRetrofit()
 
-        todasfacturas()
+
 
     }
     private fun todasfacturas(){
         mainViewModel.onCreate()
-        mainViewModel.facturaslivedata.observe(this){
-            Log.i(TAG_LOGS,it.toString())
-            if (it != null){
-                Listadatos.addAll(it.facturas)
-                adapter = FacturaHolder(this@MainActivity, Listadatos)
-                val lista = binding.recyclerview
-                lista.adapter = adapter
-                lista.layoutManager = LinearLayoutManager(this@MainActivity)
+        mainViewModel.facturamodel.observe(this){
 
-            }else{
-                Toast.makeText(this,"a habido un eerror",Toast.LENGTH_LONG).show()
-            }
+            Listadatos.addAll(it!!.facturas)
+            adapter = FacturaHolder(this@MainActivity, it!!.facturas)
+
+            val lista = binding.recyclerview
+            lista.adapter = adapter
+            lista.layoutManager = LinearLayoutManager(this@MainActivity)
+
+
+
 
         }
 
@@ -207,6 +207,32 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         Log.i(TAG_LOGS, "start")
         //llamadaRetrofit()
+        Log.i(TAG_LOGS,"onresume")
+        mainViewModel.onCreate()
+        mainViewModel.facturaslivedata.observe(this){
+
+            adapter = FacturaHolder(this@MainActivity, it!!.facturas)
+
+
+            val lista = binding.recyclerview
+            lista.adapter = adapter
+            lista.layoutManager = LinearLayoutManager(this@MainActivity)
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val bd = Room.databaseBuilder(applicationContext, FacturasBasedeDatos::class.java,"facturas").build()
+                val facturas:List<InvoiceVO> = bd.getFacturaDao().getAllentidad()
+                Log.i(TAG_LOGS,facturas.toString())
+                adapter = FacturaHolder(this@MainActivity,facturas)
+
+                val lista = binding.recyclerview
+                lista.adapter = adapter
+                lista.layoutManager = LinearLayoutManager(this@MainActivity)
+            }
+
+
+
+        }
+
 
 
     }
@@ -214,18 +240,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         //llamadaRetrofit()
-        mainViewModel.onCreate()
-
-        mainViewModel.facturaslivedata.observe(this){
-            Log.i(TAG_LOGS,it.toString())
-
-            adapter = FacturaHolder(this@MainActivity, it!!.facturas)
-
-            val lista = binding.recyclerview
-            lista.adapter = adapter
-            lista.layoutManager = LinearLayoutManager(this@MainActivity)
-
-        }
 
 
 
