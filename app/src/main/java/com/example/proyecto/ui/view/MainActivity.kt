@@ -202,7 +202,7 @@ class MainActivity : AppCompatActivity() {
         }
         return true
     }
-
+public val numero:Int=1
     override fun onStart() {
         super.onStart()
         Log.i(TAG_LOGS, "start")
@@ -218,21 +218,15 @@ class MainActivity : AppCompatActivity() {
             lista.adapter = adapter
             lista.layoutManager = LinearLayoutManager(this@MainActivity)
 
+
             CoroutineScope(Dispatchers.IO).launch {
                 val bd = Room.databaseBuilder(applicationContext, FacturasBasedeDatos::class.java,"facturas").build()
+                bd.getFacturaDao().pushAllentidad(it!!.facturas)
                 val facturas:List<InvoiceVO> = bd.getFacturaDao().getAllentidad()
                 Log.i(TAG_LOGS,facturas.toString())
-                adapter = FacturaHolder(this@MainActivity,facturas)
-
-                val lista = binding.recyclerview
-                lista.adapter = adapter
-                lista.layoutManager = LinearLayoutManager(this@MainActivity)
             }
 
-
-
         }
-
 
 
     }
