@@ -66,4 +66,7 @@ dependencies {
     //Room
     implementation "androidx.room:room-ktx:2.4.0"
     kapt "androidx.room:room-compiler:2.4.0"
+
+    implementation 'com.squareup.okhttp3:okhttp:3.12.+'
+
 }

@@ -67,6 +67,8 @@ class FacturaHolder(val context: Context, val facturalist: List<InvoiceVO?>) :
             //aqui cambiamos el color del estado cuendo la posicion del estado es igual a pagada
             if (facturalist[position]!!.descEstado == "Pagada") {
                 holder.descEstado.setTextColor(Color.BLACK)
+            }else{
+                holder.descEstado.setTextColor(Color.RED)
             }
 
 

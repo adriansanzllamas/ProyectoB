@@ -18,4 +18,6 @@ interface entidadDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun pushAllentidad(facturas:List<InvoiceVO>)
 
+
+
 }

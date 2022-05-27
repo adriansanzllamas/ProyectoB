@@ -39,11 +39,9 @@ val TAG_LOGS = "kikopalomares"
 lateinit var adapter: FacturaHolder
 public val SECOND_ACTIVITY_REQUEST_CODE = 0
 val repositorio=repository()
+lateinit var context:Context
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
-
-
     // se encargara de conectar la activity con nuestro Viewmodel
     private  val mainViewModel: mainViewModel by viewModels()
 
@@ -52,9 +50,7 @@ class MainActivity : AppCompatActivity() {
     //lateinit var recyclerView:androidx.recyclerview.widget.RecyclerView
 
 
-
     private var Listadatos = mutableListOf<InvoiceVO?>()
-
 
     override  fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,16 +60,16 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.toolbar
         //para poder administar la barra de opciones toolbar.
         setSupportActionBar(toolbar)
-
+        context=this
 
 
     }
     private fun todasfacturas(){
         mainViewModel.onCreate()
-        mainViewModel.facturamodel.observe(this){
+        mainViewModel.facturaslivedata.observe(this){
 
-            Listadatos.addAll(it!!.facturas)
-            adapter = FacturaHolder(this@MainActivity, it!!.facturas)
+            Listadatos.addAll(it)
+            adapter = FacturaHolder(this@MainActivity, it)
 
             val lista = binding.recyclerview
             lista.adapter = adapter
@@ -211,7 +207,7 @@ public val numero:Int=1
         mainViewModel.onCreate()
         mainViewModel.facturaslivedata.observe(this){
 
-            adapter = FacturaHolder(this@MainActivity, it!!.facturas)
+            adapter = FacturaHolder(this@MainActivity, it)
 
 
             val lista = binding.recyclerview
@@ -219,12 +215,12 @@ public val numero:Int=1
             lista.layoutManager = LinearLayoutManager(this@MainActivity)
 
 
-            CoroutineScope(Dispatchers.IO).launch {
-                val bd = Room.databaseBuilder(applicationContext, FacturasBasedeDatos::class.java,"facturas").build()
+            /*CoroutineScope(Dispatchers.IO).launch {
+                val bd = Room.databaseBuilder(this@MainActivity, FacturasBasedeDatos::class.java,"facturas").build()
                 bd.getFacturaDao().pushAllentidad(it!!.facturas)
                 val facturas:List<InvoiceVO> = bd.getFacturaDao().getAllentidad()
                 Log.i(TAG_LOGS,facturas.toString())
-            }
+            }*/
 
         }
 
@@ -234,6 +230,26 @@ public val numero:Int=1
     override fun onResume() {
         super.onResume()
         //llamadaRetrofit()
+        mainViewModel.onCreate()
+        mainViewModel.facturaslivedata.observe(this){
+
+            adapter = FacturaHolder(this@MainActivity, it)
+
+
+            val lista = binding.recyclerview
+            lista.adapter = adapter
+            lista.layoutManager = LinearLayoutManager(this@MainActivity)
+
+
+            /*CoroutineScope(Dispatchers.IO).launch {
+                val bd = Room.databaseBuilder(this@MainActivity, FacturasBasedeDatos::class.java,"facturas").build()
+                bd.getFacturaDao().pushAllentidad(it!!.facturas)
+                val facturas:List<InvoiceVO> = bd.getFacturaDao().getAllentidad()
+                Log.i(TAG_LOGS,facturas.toString())
+            }*/
+
+        }
+
 
 
 
