@@ -62,6 +62,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         context=this
 
+        todasfacturas()
+
 
     }
     private fun todasfacturas(){
@@ -69,7 +71,61 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.facturaslivedata.observe(this){
 
             Listadatos.addAll(it)
-            adapter = FacturaHolder(this@MainActivity, it)
+            Log.i(TAG_LOGS, Listadatos.toString()+12)
+
+
+            //tambn se puede hacer con InvoiceserviceVo en el recyclerview
+            val sps = getSharedPreferences("share", MODE_PRIVATE)
+
+            val estadopagada = sps?.getBoolean("pagada", false)
+            val estadopendientedepago = sps?.getBoolean("pendientedepago", false)
+            val estadofecha1 = sps?.getString("fecha1", "")
+            val estadofecha2=sps?.getString("fecha2","")
+            val estadobarra=sps?.getString("barra","")
+
+            if (numero != 0) {//para que no pinte las preferencias ya marcadas anteriormente
+                //ponemos primero los check box porque son los que determinan con mayor fuerza las facturas
+                //que quieres filtrar de lo contrario se borrarian y no harian bien el filtrado. y se perderian datos.
+                val formato = SimpleDateFormat("dd/MM/yyyy")
+                if (estadopagada == true) {
+                    Listadatos.removeAll { it!!.descEstado != "Pagada" }
+                }
+                if (estadopendientedepago == true) {
+                    Listadatos.removeAll { it!!.descEstado != "Pendiente de pago" }
+                }
+                if ((estadofecha1 != "") && (estadofecha2=="")) {
+                    Log.i(TAG_LOGS,estadofecha1.toString())
+                    Listadatos.removeAll { it!!.fecha!=(estadofecha1!!)}
+                }
+                if (estadofecha2 != ""&&estadofecha1=="") {
+                    Log.i(TAG_LOGS,estadofecha1.toString())
+                    Listadatos.removeAll { (it!!.fecha)!=estadofecha2!! }
+                }
+
+                if (estadofecha1 != "" && estadofecha2 != "") {
+                    Listadatos.removeAll {
+                        formato.parse(it!!.fecha).before(formato.parse(estadofecha1!!))
+                    }
+                    Listadatos.removeAll {
+                        formato.parse(it!!.fecha).after(formato.parse(estadofecha2!!))
+                    }
+
+                    Log.i(TAG_LOGS, Listadatos.toString()+12)
+                }
+
+                if (estadobarra!=""){
+
+                    val barra: Double = estadobarra!!.toDouble()
+                    Listadatos.removeAll { it!!.importeOrdenacion >=barra }
+                }
+
+
+
+            }
+
+
+
+            adapter = FacturaHolder(this@MainActivity, Listadatos)
 
             val lista = binding.recyclerview
             lista.adapter = adapter
@@ -171,12 +227,7 @@ class MainActivity : AppCompatActivity() {
     }*/
 
 
-    public fun initRecycleview() {
-// adapter=RecyclerView(FacturAS)
-        // var recycler:androidx.recyclerview.widget.RecyclerView=findViewById(R.id.recyclerview)
 
-
-    }
 
     //creamos el menu para que los elemntos esten visibles.
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -202,27 +253,7 @@ public val numero:Int=1
     override fun onStart() {
         super.onStart()
         Log.i(TAG_LOGS, "start")
-        //llamadaRetrofit()
-        Log.i(TAG_LOGS,"onresume")
-        mainViewModel.onCreate()
-        mainViewModel.facturaslivedata.observe(this){
 
-            adapter = FacturaHolder(this@MainActivity, it)
-
-
-            val lista = binding.recyclerview
-            lista.adapter = adapter
-            lista.layoutManager = LinearLayoutManager(this@MainActivity)
-
-
-            /*CoroutineScope(Dispatchers.IO).launch {
-                val bd = Room.databaseBuilder(this@MainActivity, FacturasBasedeDatos::class.java,"facturas").build()
-                bd.getFacturaDao().pushAllentidad(it!!.facturas)
-                val facturas:List<InvoiceVO> = bd.getFacturaDao().getAllentidad()
-                Log.i(TAG_LOGS,facturas.toString())
-            }*/
-
-        }
 
 
     }
@@ -233,20 +264,62 @@ public val numero:Int=1
         mainViewModel.onCreate()
         mainViewModel.facturaslivedata.observe(this){
 
-            adapter = FacturaHolder(this@MainActivity, it)
 
+            //tambn se puede hacer con InvoiceserviceVo en el recyclerview
+            val sps = getSharedPreferences("share", MODE_PRIVATE)
+
+            val estadopagada = sps?.getBoolean("pagada", false)
+            val estadopendientedepago = sps?.getBoolean("pendientedepago", false)
+            val estadofecha1 = sps?.getString("fecha1", "")
+            val estadofecha2=sps?.getString("fecha2","")
+            val estadobarra=sps?.getString("barra","")
+
+            if (numero != 0) {//para que no pinte las preferencias ya marcadas anteriormente
+                //ponemos primero los check box porque son los que determinan con mayor fuerza las facturas
+                //que quieres filtrar de lo contrario se borrarian y no harian bien el filtrado. y se perderian datos.
+                val formato = SimpleDateFormat("dd/MM/yyyy")
+                if (estadopagada == true) {
+                    Listadatos.removeAll { it!!.descEstado != "Pagada" }
+                    Log.i(TAG_LOGS, Listadatos.toString()+13)
+                }
+                if (estadopendientedepago == true) {
+                    Listadatos.removeAll { it!!.descEstado != "Pendiente de pago" }
+                }
+                if ((estadofecha1 != "") && (estadofecha2=="")) {
+                    Log.i(TAG_LOGS,estadofecha1.toString())
+                    Listadatos.removeAll { it!!.fecha!=(estadofecha1!!)}
+                }
+                if (estadofecha2 != ""&&estadofecha1=="") {
+                    Log.i(TAG_LOGS,estadofecha1.toString())
+                    Listadatos.removeAll { (it!!.fecha)!=estadofecha2!! }
+                }
+
+                if (estadofecha1 != "" && estadofecha2 != "") {
+                    Listadatos.removeAll {
+                        formato.parse(it!!.fecha).before(formato.parse(estadofecha1!!))
+                    }
+                    Listadatos.removeAll {
+                        formato.parse(it!!.fecha).after(formato.parse(estadofecha2!!))
+                    }
+
+
+                }
+
+                if (estadobarra!=""){
+
+                    val barra: Double = estadobarra!!.toDouble()
+                    Listadatos.removeAll { it!!.importeOrdenacion >=barra }
+                }
+
+
+            }
+
+            adapter = FacturaHolder(this@MainActivity, Listadatos)
 
             val lista = binding.recyclerview
             lista.adapter = adapter
             lista.layoutManager = LinearLayoutManager(this@MainActivity)
 
-
-            /*CoroutineScope(Dispatchers.IO).launch {
-                val bd = Room.databaseBuilder(this@MainActivity, FacturasBasedeDatos::class.java,"facturas").build()
-                bd.getFacturaDao().pushAllentidad(it!!.facturas)
-                val facturas:List<InvoiceVO> = bd.getFacturaDao().getAllentidad()
-                Log.i(TAG_LOGS,facturas.toString())
-            }*/
 
         }
 
